@@ -31,6 +31,7 @@ module regfile_InexRecur(
     // 支持顺序读和随机读
     input seq_re,                 // 顺序读使能
     output reg [31:0] seq_r_data, // 顺序读数据
+    output reg [11:0] out_r_addr,     // 当前数据的地址  
 
     input ran_re,                 // 随机读使能
     input [11:0] ran_r_addr,      // 随机读地址
@@ -68,6 +69,7 @@ module regfile_InexRecur(
             seq_r_data <= 0;           // 无数据
         else
             seq_r_data <= mem[pc-1];
+            out_r_addr <= pc-1;
     end
 
     // 随机读
