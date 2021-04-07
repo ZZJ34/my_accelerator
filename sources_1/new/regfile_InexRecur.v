@@ -26,7 +26,7 @@ module regfile_InexRecur(
     
     // 不支持随机写
     input we,               // 写使能
-    input [31；0] w_data,   // 写数据
+    input [31:0] w_data,   // 写数据
 
     // 支持顺序读和随机读
     input seq_re,                 // 顺序读使能
@@ -67,7 +67,7 @@ module regfile_InexRecur(
         else if(pc == 0)
             seq_r_data <= 0;           // 无数据
         else
-            seq_r_data <= mem[pc-1]
+            seq_r_data <= mem[pc-1];
     end
 
     // 随机读
@@ -79,6 +79,6 @@ module regfile_InexRecur(
         else if(ran_r_addr >= pc)
             ran_r_data <= 0;           // 无数据
         else
-            ran_r_data <= mem[ran_r_addr]
+            ran_r_data <= mem[ran_r_addr];
     end
 endmodule
