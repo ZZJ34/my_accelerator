@@ -25,6 +25,7 @@ module test_state_control(
     reg clk;
     reg rst_n;
     reg finish;
+    reg start;
     wire       done;
     wire [2:0] state;
 
@@ -32,8 +33,11 @@ module test_state_control(
         clk = 0;
         rst_n = 0;
         finish = 0;
+        start = 0;
         #20
         rst_n = 1;
+        #100
+        start = 1;
         #200
         finish = 1;
         #20
@@ -42,5 +46,5 @@ module test_state_control(
 
     always #3 clk = ~ clk;
 
-    state_control state_control_inst (.clk(clk), .rst_n(rst_n), .finish(finish), .done(done), .state(state));
+    state_control state_control_inst (.clk(clk), .rst_n(rst_n), .finish(finish), .start(start), .done(done), .state(state));
 endmodule

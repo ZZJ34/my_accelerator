@@ -24,6 +24,7 @@ module state_control(
     input clk,
     input rst_n,
     input finish,
+    input start,
     output           done,      
     output reg [2:0] state
     );
@@ -47,7 +48,12 @@ module state_control(
             state <= DONE;
         else begin
             case (state)
-                IDLE      : state <= GET_PARAM;
+                IDLE      : begin
+                    if(start) 
+                        state <= GET_PARAM;
+                    else
+                        state <= IDLE;
+                end
                 GET_PARAM : state <= GET_DATA;
                 GET_DATA  : state <= EX;
                 EX        : state <= WRIT_PRE;
