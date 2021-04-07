@@ -33,8 +33,9 @@ module state_control(
     localparam GET_PARAM = 3'b001;   // 取参数      （存在对应执行模块）
     localparam GET_DATA  = 3'b010;   // 取数据      （存在对应执行模块）
     localparam EX        = 3'b011;   // 判断/执行   （存在对应执行模块）
-    localparam WRITE_BACK= 3'b100;   // 存数据      （存在对应执行模块）
-    localparam DONE      = 3'b101;   // 遍历结束
+    localparam WRIT_PRE  = 3'b100;   // 准备数据    （存在对应执行模块）
+    localparam WRITE_BACK= 3'b101;   // 存数据      （存在对应执行模块）
+    localparam DONE      = 3'b110;   // 遍历结束
 
     reg [2:0] state;
 
@@ -49,7 +50,8 @@ module state_control(
                 IDLE      : state <= GET_PARAM;
                 GET_PARAM : state <= GET_DATA;
                 GET_DATA  : state <= EX;
-                EX        : state <= WRITE_BACK;
+                EX        : state <= WRIT_PRE;
+                WRIT_PRE  : state <= WRITE_BACK;
                 WRITE_BACK: state <= GET_PARAM;
                 default: state <= state;
             endcase
