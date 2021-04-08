@@ -30,13 +30,13 @@ module regfile_state(
 
     // 支持顺序读和随机读
     input seq_re,                 // 顺序读使能
-    output reg [16:0] seq_r_data, // 顺序读数据
 
     input ran_re,                 // 随机读使能
     input [11:0] ran_r_addr,      // 随机读地址
-    output reg [16:0] ran_r_data, // 随机读数据
+   
 
-    output reg [11:0] out_r_addr  // 当前数据的地址
+    output [11:0] out_r_addr,      // 当前数据的地址
+    output [16:0] out_r_data       // 当前数据
     );
 
     // 一个 InexRecur 对应一个 state (一一对应) 
@@ -44,8 +44,11 @@ module regfile_state(
     // 调用位置4位，地址12位，结束标志1位 数据宽度17位
     // 不支持同时进行 随机读 和 顺序读
     
-    wire [16:0] out_seq_r_addr;
-    wire [16:0] out_ran_r_addr;
+    wire [11:0] out_seq_r_addr;
+    wire [11:0] out_ran_r_addr;
+
+    wire [16:0] seq_r_data;
+    wire [16:0] ran_r_data;
 
     regfile #(.DATA_WIDTH(17)) regfile_inst(
         .clk(clk),
@@ -65,5 +68,6 @@ module regfile_state(
     );
 
     assign out_r_addr = seq_re ? out_seq_r_addr : (ran_re ? out_ran_r_addr : 12'bz);
+    assign out_r_data = seq_re ? seq_r_data : (ran_re ? ran_r_data : 32'b0);
 
 endmodule
