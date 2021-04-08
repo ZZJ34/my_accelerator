@@ -10,6 +10,9 @@
 // Target Devices: 
 // Tool Versions: 
 // Description: 
+//              4个参数 i,z,k,l 每个参数8位(数据宽度32位)
+//
+//              🐖：不支持同时进行随机读和顺序读
 // 
 // Dependencies: 
 // 
@@ -34,12 +37,10 @@ module regfile_InexRecur(
     input ran_re,             // 随机读使能
     input [11:0] ran_r_addr,  // 随机读地址
 
-    output [11:0] out_r_addr, // 当前数据的地址
-    output [31:0] out_r_data  // 当前数据
+    output [11:0] r_addr, // 当前数据的地址
+    output [31:0] r_data  // 当前数据
     );
 
-    // 4个参数 i,z,k,l 每个参数8位 数据宽度32位
-    // 不支持同时进行 随机读 和 顺序读
 
     wire [11:0] out_seq_r_addr;
     wire [11:0] out_ran_r_addr;
@@ -64,7 +65,7 @@ module regfile_InexRecur(
         .out_ran_r_addr(out_ran_r_addr)
     );
 
-    assign out_r_addr = seq_re ? out_seq_r_addr : (ran_re ? out_ran_r_addr : 12'bz);
-    assign out_r_data = seq_re ? seq_r_data : (ran_re ? ran_r_data : 32'b0);
+    assign r_addr = seq_re ? out_seq_r_addr : (ran_re ? out_ran_r_addr : 12'bz);
+    assign r_data = seq_re ? seq_r_data : (ran_re ? ran_r_data : 32'b0);
 
 endmodule

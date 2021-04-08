@@ -10,6 +10,12 @@
 // Target Devices: 
 // Tool Versions: 
 // Description: 
+//             一个 InexRecur 对应一个 state (一一对应) 
+//
+//             一个 state 包含了与之对应的 InexRecur 参数执行到位置，InexRecur 参数的地址以及当前调用是否结束的标志
+//             调用位置4位，地址12位，结束标志1位(数据宽度17位)
+// 
+//             🐖：不支持同时进行随机读和顺序读
 // 
 // Dependencies: 
 // 
@@ -35,14 +41,9 @@ module regfile_state(
     input [11:0] ran_r_addr,      // 随机读地址
    
 
-    output [11:0] out_r_addr,      // 当前数据的地址
-    output [16:0] out_r_data       // 当前数据
+    output [11:0] r_addr,      // 当前数据的地址
+    output [16:0] r_data       // 当前数据
     );
-
-    // 一个 InexRecur 对应一个 state (一一对应) 
-    // 一个 state 包含了上一个调用的位置，上一个 InexRecur 参数的地址以及当前调用是否结束的标志
-    // 调用位置4位，地址12位，结束标志1位 数据宽度17位
-    // 不支持同时进行 随机读 和 顺序读
     
     wire [11:0] out_seq_r_addr;
     wire [11:0] out_ran_r_addr;
@@ -67,7 +68,7 @@ module regfile_state(
         .out_ran_r_addr(out_ran_r_addr)
     );
 
-    assign out_r_addr = seq_re ? out_seq_r_addr : (ran_re ? out_ran_r_addr : 12'bz);
-    assign out_r_data = seq_re ? seq_r_data : (ran_re ? ran_r_data : 32'b0);
+    assign r_addr = seq_re ? out_seq_r_addr : (ran_re ? out_ran_r_addr : 12'bz);
+    assign r_data = seq_re ? seq_r_data : (ran_re ? ran_r_data : 32'b0);
 
 endmodule

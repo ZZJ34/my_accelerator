@@ -9,7 +9,9 @@
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
-// Description: 状态控制，四个有效状态
+// Description: 
+//            一个大的状态机
+//            负责状态控制，五个有效状态
 // 
 // Dependencies: 
 // 
@@ -23,9 +25,9 @@
 module state_control(
     input clk,
     input rst_n,
-    input finish,
-    input start,
-    output           done,      
+    input  is_finish,                // 是否已完成所有迭代
+    input  is_start,                 // 是否开始开始
+    input  is_find,                  // 是否找到尚未完成的参数
     output reg [2:0] state
     );
     
@@ -42,17 +44,22 @@ module state_control(
     always @(posedge clk) begin
         if(!rst_n) 
             state <= IDLE;
-        else if(finish)
+        else if(is_finish)
             state <= DONE;
         else begin
             case (state)
                 IDLE      : begin
-                    if(start) 
+                    if(is_start) 
                         state <= GET_PARAM;
                     else
                         state <= IDLE;
                 end
-                GET_PARAM : state <= GET_DATA;
+                GET_PARAM : begin
+                    if(is_find)
+                        state <= GET_DATA;
+                    else
+                        state <= GET_PARAM;
+                end
                 GET_DATA  : state <= EX;
                 EX        : state <= WRIT_PRE;
                 WRIT_PRE  : state <= WRITE_BACK;
@@ -61,7 +68,5 @@ module state_control(
             endcase
         end
     end
-
-    assign done = state == DONE;
 
 endmodule
