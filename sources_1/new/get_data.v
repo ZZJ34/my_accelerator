@@ -25,16 +25,15 @@ module get_data(
     input rst_n,               // 复位信号
 
     input [2:0] en_get_data,  // 该模块使能
-
+    
+    // 上一个模块的输出
     // 四个参数
     input [7:0] i_in,
     input [7:0] z_in,
     input [7:0] k_in,
     input [7:0] l_in,
-    
     // 当前参数地址
     input [11:0] addr,
-
     // 当前参数执行位置
     input [4:0] position,
 
@@ -63,11 +62,11 @@ module get_data(
     output reg [7:0] z_out,
     output reg [7:0] k_out,
     output reg [7:0] l_out,
-    output reg [7:0] d_i_out,            
-    output reg [1:0] read_i_out,          
-    output reg [7:0] data_1_out,         
-    output reg [7:0] data_2_out,         
-    output reg [7:0] C_out            
+    output reg [7:0] d_i_out,
+    output reg [1:0] read_i_out,
+    output reg [7:0] data_1_out,
+    output reg [7:0] data_2_out,
+    output reg [7:0] C_out
     );
 
     always @(*) begin
