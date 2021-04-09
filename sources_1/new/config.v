@@ -1,4 +1,5 @@
 // 定义一些常量值
+`define NONE 0
 
 `define  INSERTION 1
 
@@ -16,6 +17,11 @@
 `define    C_SNP 11
 `define    G_SNP 12
 `define    T_SNP 13
+
+`define    STOP_1 14
+`define    STOP_2 15
+
+
 
 
 
