@@ -20,9 +20,11 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+`include "config.v"
 module ex(
     input rst_n,              // 复位
+
+    input [2:0] en_ex,  // 该模块使能
 
     // 来自上一个模块的输出
     input [4:0] position_in,
@@ -38,6 +40,266 @@ module ex(
     input [7:0] C_in,
 
     // 该模块输出
+
+    output reg [11:0] current_addr,
+    output reg [7:0] current_k,
+    output reg [7:0] current_l,
+    
+    output reg over_1,             // 条件1中止   z < D(i)   “1”有效
+    output reg over_2,             // 条件2中止   i < 0      “1”有效
+
+    output reg en_new_position,    // 是否更新当前参数执行位置    “1”有效
+    output reg [4:0] new_position, // 新的执行位置
+
+    output reg new_call,           // 调用新的循环   “1”有效
+    output reg [7:0] i_new,         
+    output reg [7:0] z_new,
+    output reg [7:0] k_new,
+    output reg [7:0] l_new,
+
+    output reg finish              // 全部完成       “1”有效
     );
+
+    always @(*) begin
+        if(!rst_n) begin
+            current_addr <= 0;
+            current_k <= 0;
+            current_l <= 0;
+            over_1 <= 0;
+            over_2 <= 0;
+            en_new_position <= 0;
+            new_position <= 0;
+
+            new_call <= 0;
+            i_new <= 0;
+            z_new <= 0;
+            k_new <= 0;
+            l_new <= 0;
+
+            finish <= 0;
+        end
+        else if(en_ex == 3'b011) begin
+            current_addr <= addr_in;
+            current_k <= k_in;
+            current_l <= l_in;
+            case (position_in)
+                `NONE: begin
+                    // 这里 z_in 可能等于 -1 ，涉及有符号数比较
+                    if( $signed(z_in) < $signed(d_i_in) ) begin
+                        over_1 <= 1;
+                        over_2 <= 0;
+
+                        en_new_position <= 0;
+                        new_position <= 0;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `STOP_1;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
+                end
+                `STOP_1: begin
+                    // 这里 i_in 可能等于 -1 ，涉及有符号数比较
+                    if( $signed(i_in) < $signed(0) ) begin
+                        over_1 <= 0;
+                        over_2 <= 1;
+
+                        en_new_position <= 0;
+                        new_position <= 0;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `STOP_2;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
+                end
+                `STOP_2: begin
+                    over_1 <= 0;
+                    over_2 <= 0;
+
+                    en_new_position <= 1;
+                    new_position <= `A_INSERTION;
+
+                    new_call <= 1;
+                    i_new <= i_in - 1;
+                    z_new <= z_in - 1;
+                    k_new <= k_in;
+                    l_new <= l_in;
+
+                    finish <= 0;
+                end
+                `A_INSERTION: begin
+                    if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `A_DELETION;
+
+                        new_call <= 1;
+                        i_new <= i_in;
+                        z_new <= z_in - 1;
+                        k_new <= k_in;
+                        l_new <= l_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `C_INSERTION;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
+                end
+                `C_INSERTION: begin
+                    if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `C_DELETION;
+
+                        new_call <= 1;
+                        i_new <= i_in;
+                        z_new <= z_in - 1;
+                        k_new <= k_in;
+                        l_new <= l_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `G_INSERTION;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
+                end
+                `G_INSERTION: begin
+                    if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `G_DELETION;
+
+                        new_call <= 1;
+                        i_new <= i_in;
+                        z_new <= z_in - 1;
+                        k_new <= k_in;
+                        l_new <= l_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `T_INSERTION;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
+                end
+                `T_INSERTION: begin
+                    if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `T_DELETION;
+
+                        new_call <= 1;
+                        i_new <= i_in;
+                        z_new <= z_in - 1;
+                        k_new <= k_in;
+                        l_new <= l_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 0;
+                        new_position <= 0;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 1;
+                    end
+                end
+                default: begin
+                    
+                end
+            endcase
+        end
+        else begin
+            
+        end
+    end
 
 endmodule

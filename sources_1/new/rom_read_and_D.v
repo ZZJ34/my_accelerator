@@ -43,8 +43,8 @@ module rom_read_and_D(
             read_i <= 0;
         end
         else begin
-            d_i <= mem[addr][7:0];
-            read_i <= mem[addr][9:8];
+            d_i <= addr == 16'hff ? 0: mem[addr][7:0];
+            read_i <= addr == 16'hff ? 0: mem[addr][9:8];
         end
     end
 
