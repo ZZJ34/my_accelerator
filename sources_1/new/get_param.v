@@ -41,7 +41,7 @@ module get_param(
     output reg re_reg_state_ran_o,              // regfile_state 随机读使能
     output reg [11:0] r_reg_state_addr_o,       // regfile_state 随机读地址
     input [11:0] state_addr_i,                  // regfile_state 当前地址（ InexRecur 和 state 的数据一一对应，知道一个当前地址即可）
-    input [16:0] state_data_i,                  // regfile_state 当前数据
+    input [17:0] state_data_i,                  // regfile_state 当前数据
 
     // 给下一个模块的输出
     // 四个参数

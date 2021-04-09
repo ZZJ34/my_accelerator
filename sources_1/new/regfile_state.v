@@ -32,7 +32,7 @@ module regfile_state(
     
     // 不支持随机写
     input we,               // 写使能
-    input [16:0] w_data,    // 写数据
+    input [17:0] w_data,    // 写数据
 
     // 支持顺序读和随机读
     input seq_re,                 // 顺序读使能

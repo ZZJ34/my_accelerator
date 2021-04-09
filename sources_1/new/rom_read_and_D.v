@@ -23,7 +23,7 @@
 module rom_read_and_D(
     input ce,
     input      [7:0] addr,
-    output reg [7:0] d_i,            
+    output reg [7:0] d_i,
     output reg [1:0] read_i    
     );
 

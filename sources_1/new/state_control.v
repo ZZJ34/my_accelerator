@@ -25,9 +25,9 @@
 module state_control(
     input clk,
     input rst_n,
-    input  is_finish,                // 是否已完成所有迭代
-    input  is_start,                 // 是否开始开始
-    input  is_find,                  // 是否找到尚未完成的参数
+    input is_finish,                // 是否已完成所有迭代
+    input is_start,                 // 是否开始开始
+    input is_find,                  // 是否找到尚未完成的参数
     output reg [2:0] state
     );
     
@@ -68,5 +68,7 @@ module state_control(
             endcase
         end
     end
+
+
 
 endmodule
