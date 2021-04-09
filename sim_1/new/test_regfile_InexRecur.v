@@ -98,7 +98,7 @@ module test_regfile_InexRecur(
         .ran_re(ran_re),
         .ran_r_addr(ran_r_addr),
 
-        .out_r_addr(out_r_addr),
-        .out_r_data(out_r_data)
+        .r_addr(out_r_addr),
+        .r_data(out_r_data)
     );
 endmodule
