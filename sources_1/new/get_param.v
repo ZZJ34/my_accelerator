@@ -54,7 +54,7 @@ module get_param(
     output reg [11:0] addr,
 
     // 当前参数执行位置
-    output reg [3:0] position,
+    output reg [4:0] position,
     
     // 是否找到未执行完成的参数
     output reg is_find
@@ -114,7 +114,7 @@ module get_param(
             if(en_get_param == 3'b001) begin
                 is_find <= ~(state_data_i[0]);  // 结束标志 over 为 1，则回溯；为 0 则传递
 
-                position <= state_data_i [16:13];
+                position <= state_data_i [17:13];
 
                 i_out <= InexRecur_data_i [31:24];
                 z_out <= InexRecur_data_i [23:16];

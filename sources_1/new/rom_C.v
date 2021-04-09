@@ -28,6 +28,11 @@ module rom_C(
 
     reg [3:0] mem [7:0];
 
+    // 00 - A
+    // 01 - C
+    // 10 - G
+    // 11 = T
+
     // 绝对路径
     initial $readmemb("D:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/new/C.data", mem);
 
