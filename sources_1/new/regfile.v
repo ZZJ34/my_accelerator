@@ -41,7 +41,7 @@ module regfile#(
     output reg [11:0] out_ran_r_addr         // 随机读数据的地址
     );
 
-    reg [4095:0] mem [DATA_WIDTH-1:0];     
+    reg [DATA_WIDTH-1:0] mem [0:4095] ;     
     reg [11:0] pc;                           // 当前顶端地址
 
     //////////////////////////////////////////
