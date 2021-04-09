@@ -32,6 +32,8 @@ module test_rom_Occ(
         #20
         ce = 1;
         #5
+        addr = addr - 1;
+        #5
         addr = addr + 1;
         #5
         addr = addr + 1;

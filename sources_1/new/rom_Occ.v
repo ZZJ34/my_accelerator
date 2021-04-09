@@ -36,7 +36,7 @@ module rom_Occ(
     // c [15:8]
     // a [7:0]
     
-    reg [255:0] mem [0:31];
+    reg [31:0] mem [0:255];
 
     // 绝对路径
     initial $readmemh("D:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/new/Occ.data", mem);
@@ -47,8 +47,8 @@ module rom_Occ(
             data_2 <= 0;
         end
         else begin
-            data_1 <= mem[addr_1];
-            data_2 <= mem[addr_2];
+            data_1 <= addr_1 == 16'hff ? 0: mem[addr_1];
+            data_2 <= addr_2 == 16'hff ? 0: mem[addr_2];
         end
     end
 
