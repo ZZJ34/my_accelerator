@@ -26,7 +26,7 @@ module rom_C(
     output reg [7:0] data
     );
 
-    reg [3:0] mem [7:0];
+    reg [7:0] mem [0:3];
 
     // 00 - A
     // 01 - C
