@@ -58,7 +58,8 @@ module accelerator_fsm(
 
     wire is_find_control;
     wire is_finish_control;
-
+    
+    // 模块之间的互连线
     wire [7:0] i_param_to_data;
     wire [7:0] z_param_to_data;
     wire [7:0] k_param_to_data;
