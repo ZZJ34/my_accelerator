@@ -174,20 +174,72 @@ module get_data(
                     data_1_out <= data_1[31:24];
                     data_2_out <= data_2[31:24];
                 end
-                `A_DELETION,`C_DELETION,`G_DELETION,`T_DELETION: begin
-                    // 使能
-                    ce_rom_C <= 0;
-                    ce_rom_Occ <= 0;
+                `A_DELETION: begin
+                    //使能
+                    ce_rom_C <= 1;
+                    ce_rom_Occ <= 1;
                     ce_rom_read_and_D <= 1;
                     // 地址线
-                    addr_rom_C <= 0;
-                    addr1_rom_Occ <= 0;
-                    addr2_rom_Occ <= 0;
+                    addr_rom_C <= 2'b00;
+                    addr1_rom_Occ <= k_in - 1;
+                    addr2_rom_Occ <= l_in;
                     addr_rom_read_and_D <= i_in;
 
                     read_i_out <= read_i;
+                    C_out <= data;
+                    data_1_out <= data_1[7:0];
+                    data_2_out <= data_2[7:0];
                 end
-                `STOP_1,`STOP_1,`A_MATCH,`C_MATCH,`G_MATCH,`T_MATCH,`A_SNP,`C_SNP,`G_SNP,`T_SNP:begin
+                `C_DELETION: begin
+                    //使能
+                    ce_rom_C <= 1;
+                    ce_rom_Occ <= 1;
+                    ce_rom_read_and_D <= 1;
+                    // 地址线
+                    addr_rom_C <= 2'b01;
+                    addr1_rom_Occ <= k_in - 1;
+                    addr2_rom_Occ <= l_in;
+                    addr_rom_read_and_D <= i_in;
+
+                    read_i_out <= read_i;
+                    C_out <= data;
+                    data_1_out <= data_1[15:8];
+                    data_2_out <= data_2[15:8];
+                end
+                `G_DELETION: begin
+                    // 使能
+                    ce_rom_C <= 1;
+                    ce_rom_Occ <= 1;
+                    ce_rom_read_and_D <= 1;
+                    // 地址线
+                    addr_rom_C <= 2'b10;
+                    addr1_rom_Occ <= k_in - 1;
+                    addr2_rom_Occ <= l_in;
+                    addr_rom_read_and_D <= i_in;
+
+                    read_i_out <= read_i;
+                    C_out <= data;
+                    data_1_out <= data_1[23:16];
+                    data_2_out <= data_2[23:16];
+                end
+                `T_DELETION: begin
+                    // 使能
+                    ce_rom_C <= 1;
+                    ce_rom_Occ <= 1;
+                    ce_rom_read_and_D <= 1;
+                    // 地址线
+                    addr_rom_C <= 2'b11;
+                    addr1_rom_Occ <= k_in - 1;
+                    addr2_rom_Occ <= l_in;
+                    addr_rom_read_and_D <= i_in;
+
+                    read_i_out <= read_i;
+                    C_out <= data;
+                    data_1_out <= data_1[31:24];
+                    data_2_out <= data_2[31:24];
+                end
+                // end
+                `STOP_1,`STOP_2,`A_MATCH,`C_MATCH,`G_MATCH,`T_MATCH,`A_SNP,`C_SNP,`G_SNP,`T_SNP:begin
                     // 使能
                     ce_rom_C <= 0;
                     ce_rom_Occ <= 0;

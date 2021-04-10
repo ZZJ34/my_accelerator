@@ -43,6 +43,7 @@ module rom_read_and_D(
             read_i <= 0;
         end
         else begin
+            // 地址 16'hff 被认为是 -1，则该 mem 的最后一个地址数据无效
             d_i <= addr == 16'hff ? 0: mem[addr][7:0];
             read_i <= addr == 16'hff ? 0: mem[addr][9:8];
         end

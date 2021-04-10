@@ -175,8 +175,8 @@ module ex(
                         new_call <= 1;
                         i_new <= i_in;
                         z_new <= z_in - 1;
-                        k_new <= k_in;
-                        l_new <= l_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
 
                         finish <= 0;
                     end
@@ -207,8 +207,8 @@ module ex(
                         new_call <= 1;
                         i_new <= i_in;
                         z_new <= z_in - 1;
-                        k_new <= k_in;
-                        l_new <= l_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
 
                         finish <= 0;
                     end
@@ -239,8 +239,8 @@ module ex(
                         new_call <= 1;
                         i_new <= i_in;
                         z_new <= z_in - 1;
-                        k_new <= k_in;
-                        l_new <= l_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
 
                         finish <= 0;
                     end
@@ -292,8 +292,196 @@ module ex(
                         finish <= 1;
                     end
                 end
+                `A_DELETION: begin
+                    if(read_i_in == 2'b00) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `A_MATCH;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `A_SNP;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in - 1;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                end
+                `C_DELETION: begin 
+                    if(read_i_in == 2'b01) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `C_MATCH;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `C_SNP;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in - 1;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                end
+                `G_DELETION: begin
+                    if(read_i_in == 2'b10) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `G_MATCH;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `G_SNP;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in - 1;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                end
+                `T_DELETION: begin
+                    if(read_i_in == 2'b10) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `T_MATCH;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+
+                        en_new_position <= 1;
+                        new_position <= `T_SNP;
+
+                        new_call <= 1;
+                        i_new <= i_in - 1;
+                        z_new <= z_in - 1;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
+
+                        finish <= 0;
+                    end
+                end
+                `A_MATCH,`A_SNP: begin
+                    over_1 <= 0;
+                    over_2 <= 0;
+
+                    en_new_position <= 1;
+                    new_position <= `C_INSERTION;
+
+                    new_call <= 0;
+                    i_new <= 0;
+                    z_new <= 0;
+                    k_new <= 0;
+                    l_new <= 0;
+
+                    finish <= 0;
+                end
+                `C_MATCH,`C_SNP: begin
+                    over_1 <= 0;
+                    over_2 <= 0;
+
+                    en_new_position <= 1;
+                    new_position <= `G_INSERTION;
+
+                    new_call <= 0;
+                    i_new <= 0;
+                    z_new <= 0;
+                    k_new <= 0;
+                    l_new <= 0;
+
+                    finish <= 0;
+                end
+                `G_MATCH,`G_SNP: begin
+                    over_1 <= 0;
+                    over_2 <= 0;
+
+                    en_new_position <= 1;
+                    new_position <= `T_INSERTION;
+
+                    new_call <= 0;
+                    i_new <= 0;
+                    z_new <= 0;
+                    k_new <= 0;
+                    l_new <= 0;
+
+                    finish <= 0;
+                end
+                `T_MATCH,`T_SNP: begin
+                    over_1 <= 0;
+                    over_2 <= 0;
+
+                    en_new_position <= 1;
+                    new_position <= `T_INSERTION;
+
+                    new_call <= 0;
+                    i_new <= 0;
+                    z_new <= 0;
+                    k_new <= 0;
+                    l_new <= 0;
+
+                    finish <= 1;
+                end
                 default: begin
-                    
+
                 end
             endcase
         end

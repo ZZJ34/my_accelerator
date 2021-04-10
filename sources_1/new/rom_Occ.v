@@ -47,6 +47,7 @@ module rom_Occ(
             data_2 <= 0;
         end
         else begin
+            // 地址 16'hff 被认为是 -1，则该 mem 的最后一个地址数据无效
             data_1 <= addr_1 == 16'hff ? 0: mem[addr_1];
             data_2 <= addr_2 == 16'hff ? 0: mem[addr_2];
         end
