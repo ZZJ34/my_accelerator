@@ -57,6 +57,7 @@ module accelerator_fsm(
     wire [2:0] state_out;
 
     wire is_find_control;
+    wire is_finish_control;
 
     wire [7:0] i_param_to_data;
     wire [7:0] z_param_to_data;
@@ -65,11 +66,24 @@ module accelerator_fsm(
     wire [11:0] addr_param_to_data;
     wire [4:0] position_param_to_data;
 
+    wire [7:0] i_data_to_ex;
+    wire [7:0] z_data_to_ex;
+    wire [7:0] k_data_to_ex;
+    wire [7:0] l_data_to_ex;
+    wire [11:0] addr_data_to_ex;
+    wire [4:0] position_data_to_ex;
+    wire [7:0] d_i_data_to_ex;
+    wire [1:0] read_i_data_to_ex;
+    wire [7:0] data_1_data_to_ex;
+    wire [7:0] data_2_data_to_ex;
+    wire [7:0] C_in_data_to_ex;
+
+
     // 状态控制
     state_control state_control_inst(
         .clk(clk),
         .rst_n(rst_n),
-        .is_finish(),                      // 是否已完成所有迭代
+        .is_finish(is_finish_control),     // 是否已完成所有迭代
         .is_start(is_start),               // 是否开始开始
         .is_find(is_find_control),         // 是否找到尚未完成的参数
         .state(state_out)
@@ -150,17 +164,56 @@ module accelerator_fsm(
         .data(data_i),           // rom_C
     
         // 输出给下一个模块的数据
-        .position_out(),
-        .addr_out(),
-        .i_out(),
-        .z_out(),
-        .k_out(),
-        .l_out(),
-        .d_i_out(),            
-        .read_i_out(),          
-        .data_1_out(),         
-        .data_2_out(),         
-        .C_out()
+        .position_out(position_data_to_ex),
+        .addr_out(addr_data_to_ex),
+        .i_out(i_data_to_ex),
+        .z_out(z_data_to_ex),
+        .k_out(k_data_to_ex),
+        .l_out(l_data_to_ex),
+        .d_i_out(d_i_data_to_ex),            
+        .read_i_out(read_i_data_to_ex),          
+        .data_1_out(data_1_data_to_ex),         
+        .data_2_out(data_2_data_to_ex),         
+        .C_out(C_in_data_to_ex)
+    );
+    
+    // 判断/执行
+    ex ex_inst(
+        .rst_n(rst_n),       // 复位
+
+        .en_ex(state_out),   // 该模块使能
+
+        // 来自上一个模块的输出
+        .position_in(position_data_to_ex),
+        .addr_in(addr_data_to_ex),
+        .i_in(i_data_to_ex),
+        .z_in(z_data_to_ex),
+        .k_in(k_data_to_ex),
+        .l_in(l_data_to_ex),
+        .d_i_in(d_i_data_to_ex),
+        .read_i_in(read_i_data_to_ex),
+        .data_1_in(data_1_data_to_ex),
+        .data_2_in(data_2_data_to_ex),
+        .C_in(C_in_data_to_ex),
+
+        // 该模块输出
+        .current_addr(),
+        .current_k(),
+        .current_l(),
+    
+        .over_1(),             // 条件1中止   z < D(i)   “1”有效
+        .over_2(),             // 条件2中止   i < 0      “1”有效
+
+        .en_new_position(),    // 是否更新当前参数执行位置    “1”有效
+        .new_position(),       // 新的执行位置
+
+        .new_call(),           // 调用新的循环   “1”有效
+        .i_new(),         
+        .z_new(),
+        .k_new(),
+        .l_new(),
+
+        .finish()              // 全部完成       “1”有效
     );
 
 
