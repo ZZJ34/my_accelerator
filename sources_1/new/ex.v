@@ -24,7 +24,7 @@
 module ex(
     input rst_n,              // 复位
 
-    input [2:0] en_ex,  // 该模块使能
+    input [2:0] en_ex,        // 该模块使能
 
     // 来自上一个模块的输出
     input [4:0] position_in,

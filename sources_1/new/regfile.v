@@ -65,16 +65,22 @@ module regfile#(
         end
     end
 
-    always @(posedge clk or negedge rst_n) begin
-        if(!rst_n) begin
+    genvar i;
+    generate
+        for ( i = 0; i < DATA_WIDTH; i = i + 1) begin:nwrite_list
+            always @(posedge clk or negedge rst_n) begin
+                if(!rst_n) begin
             
-        end
-        else begin
-            if(ran_we) begin
-                mem[ran_w_addr] <= ran_w_data;
+                end
+                else begin
+                if(ran_we) begin
+                    mem[ran_w_addr][i] <= (ran_w_data[i] === 1'bx ? mem[ran_w_addr][i] : ran_w_data[i]);
+                end
             end
         end
     end
+        
+    endgenerate
 
     // 顺序读操作
     always @(*) begin
