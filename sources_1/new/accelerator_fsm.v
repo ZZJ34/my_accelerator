@@ -51,6 +51,21 @@ module accelerator_fsm(
     input [31:0] data_1_i,         // rom_Occ
     input [31:0] data_2_i,         // rom_Occ
     input [7:0] data_i             // rom_C
+
+    output seq_we_state_o,
+    output seq_we_InexRecur_o,
+
+    output [17:0] seq_w_data_state_o,
+    output [31:0] seq_w_data_InexRecur_o,
+
+    output ran_we_state_o,
+    output ran_we_InexRecur_o,               // 似乎没有 InexRecur 的随机读
+
+    output [17:0] ran_w_data_state_o,
+    output [31:0] ran_w_data_InexRecur_o,    // 似乎没有 InexRecur 的随机读
+
+    output [11:0] ran_w_addr_state_o,
+    output [11:0] ran_w_addr_InexRecur_o     // 似乎没有 InexRecur 的随机读
     );
     
     // 状态控制输出，使能不同的模块
@@ -79,6 +94,18 @@ module accelerator_fsm(
     wire [7:0] data_2_data_to_ex;
     wire [7:0] C_in_data_to_ex;
 
+    wire [11:0] current_addr_ex_to_wb;
+    wire [7:0]  current_k_ex_to_wb;
+    wire [7:0]  current_l_ex_to_wb;
+    wire over_1_ex_to_wb;
+    wire over_2_ex_to_wb;
+    wire en_new_position_ex_to_wb;
+    wire [4:0] new_position_ex_to_wb;
+    wire new_call_i_ex_to_wb;
+    wire [7:0] i_new_ex_to_wb;
+    wire [7:0] z_new_ex_to_wb;
+    wire [7:0] k_new_ex_to_wb;
+    wire [7:0] l_new_ex_to_wb;
 
     // 状态控制
     state_control state_control_inst(
@@ -198,23 +225,63 @@ module accelerator_fsm(
         .C_in(C_in_data_to_ex),
 
         // 该模块输出
-        .current_addr(),
-        .current_k(),
-        .current_l(),
+        .current_addr(current_addr_ex_to_wb),
+        .current_k(current_k_ex_to_wb),
+        .current_l(current_l_ex_to_wb),
     
-        .over_1(),             // 条件1中止   z < D(i)   “1”有效
-        .over_2(),             // 条件2中止   i < 0      “1”有效
+        .over_1(over_1_ex_to_wb),             // 条件1中止   z < D(i)   “1”有效
+        .over_2(over_2_ex_to_wb),             // 条件2中止   i < 0      “1”有效
 
-        .en_new_position(),    // 是否更新当前参数执行位置    “1”有效
-        .new_position(),       // 新的执行位置
+        .en_new_position(en_new_position_ex_to_wb), // 是否更新当前参数执行位置    “1”有效
+        .new_position(new_position_ex_to_wb),       // 新的执行位置
 
-        .new_call(),           // 调用新的循环   “1”有效
-        .i_new(),         
-        .z_new(),
-        .k_new(),
-        .l_new(),
+        .new_call(new_call_i_ex_to_wb),             // 调用新的循环   “1”有效
+        .i_new(i_new_ex_to_wb),         
+        .z_new(z_new_ex_to_wb),
+        .k_new(k_new_ex_to_wb),
+        .l_new(l_new_ex_to_wb),
 
-        .finish()              // 全部完成       “1”有效
+        .finish(is_finish_control)              // 全部完成       “1”有效
+    );
+
+    // 数据回写
+    write_back write_back_inst(
+        .rst_n(rst_n),               // 复位
+
+        .en_write_back(state_out), // 该模块使能
+
+        // 上一个模块的输出
+        .current_addr_i(current_addr_ex_to_wb),
+        .current_k_i(current_k_ex_to_wb),
+        .current_l_i(current_l_ex_to_wb),
+    
+        .over_1_i(over_1_ex_to_wb),               // 条件1中止   z < D(i)   “1”有效
+        .over_2_i(over_2_ex_to_wb),               // 条件2中止   i < 0      “1”有效
+
+        .en_new_position_i(en_new_position_ex_to_wb),   // 是否更新当前参数执行位置    “1”有效
+        .new_position_i(new_position_ex_to_wb),                              // 新的执行位置
+
+        .new_call_i(new_call_i_ex_to_wb),               // 调用新的循环   “1”有效
+        .i_new_i(i_new_ex_to_wb),         
+        .z_new_i(z_new_ex_to_wb),
+        .k_new_i(k_new_ex_to_wb),
+        .l_new_i(l_new_ex_to_wb),
+   
+        // 输出
+        .seq_we_state(seq_we_state_o),
+        .seq_we_InexRecur(seq_we_InexRecur_o),
+
+        .seq_w_data_state(seq_w_data_state_o),
+        .seq_w_data_InexRecur(seq_w_data_InexRecur_o),
+
+        .ran_we_state(ran_we_state_o),
+        .ran_we_InexRecur(ran_we_InexRecur_o),               // 似乎没有InexRecur 的随机读
+
+        .ran_w_data_state(ran_w_data_state_o),
+        .ran_w_data_InexRecur(ran_w_data_InexRecur_o),       // 似乎没有InexRecur 的随机读
+
+        .ran_w_addr_state(ran_w_addr_state_o),
+        .ran_w_addr_InexRecur(ran_w_addr_InexRecur_o)         // 似乎没有InexRecur 的随机读
     );
 
 
