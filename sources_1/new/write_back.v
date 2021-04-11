@@ -53,13 +53,13 @@ module write_back(
     output reg [31:0] seq_w_data_InexRecur,
 
     output reg ran_we_state,
-    output reg ran_we_InexRecur,               // 似乎没有InexRecur 的随机读
+    output reg ran_we_InexRecur,               
 
     output reg [17:0] ran_w_data_state,
-    output reg [31:0] ran_w_data_InexRecur,    // 似乎没有InexRecur 的随机读
+    output reg [31:0] ran_w_data_InexRecur,    
 
     output reg [11:0] ran_w_addr_state,
-    output reg [11:0] ran_w_addr_InexRecur     // 似乎没有InexRecur 的随机读
+    output reg [11:0] ran_w_addr_InexRecur     
     );
 
     always @(*) begin

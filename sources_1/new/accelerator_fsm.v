@@ -59,13 +59,13 @@ module accelerator_fsm(
     output [31:0] seq_w_data_InexRecur_o,
 
     output ran_we_state_o,
-    output ran_we_InexRecur_o,               // 似乎没有 InexRecur 的随机读
+    output ran_we_InexRecur_o,               
 
     output [17:0] ran_w_data_state_o,
-    output [31:0] ran_w_data_InexRecur_o,    // 似乎没有 InexRecur 的随机读
+    output [31:0] ran_w_data_InexRecur_o,    
 
     output [11:0] ran_w_addr_state_o,
-    output [11:0] ran_w_addr_InexRecur_o     // 似乎没有 InexRecur 的随机读
+    output [11:0] ran_w_addr_InexRecur_o     
     );
     
     // 状态控制输出，使能不同的模块
@@ -275,13 +275,13 @@ module accelerator_fsm(
         .seq_w_data_InexRecur(seq_w_data_InexRecur_o),
 
         .ran_we_state(ran_we_state_o),
-        .ran_we_InexRecur(ran_we_InexRecur_o),               // 似乎没有InexRecur 的随机读
+        .ran_we_InexRecur(ran_we_InexRecur_o),               
 
         .ran_w_data_state(ran_w_data_state_o),
-        .ran_w_data_InexRecur(ran_w_data_InexRecur_o),       // 似乎没有InexRecur 的随机读
+        .ran_w_data_InexRecur(ran_w_data_InexRecur_o),      
 
         .ran_w_addr_state(ran_w_addr_state_o),
-        .ran_w_addr_InexRecur(ran_w_addr_InexRecur_o)         // 似乎没有InexRecur 的随机读
+        .ran_w_addr_InexRecur(ran_w_addr_InexRecur_o)         
     );
 
 

@@ -126,7 +126,22 @@ module test_accelerator_fsm(
         .read_i_i(read_i),         // rom_read_and_D
         .data_1_i(data_1),         // rom_Occ
         .data_2_i(data_2),         // rom_Occ
-        .data_i(data)              // rom_C
+        .data_i(data),              // rom_C
+
+        .seq_we_state_o(),
+        .seq_we_InexRecur_o(),
+
+        .seq_w_data_state_o(),
+        .seq_w_data_InexRecur_o(),
+
+        .ran_we_state_o(),
+        .ran_we_InexRecur_o(),        // 似乎没有 InexRecur 的随机读
+
+        .ran_w_data_state_o(),
+        .ran_w_data_InexRecur_o(),    // 似乎没有 InexRecur 的随机读
+
+        .ran_w_addr_state_o(),
+        .ran_w_addr_InexRecur_o()     // 似乎没有 InexRecur 的随机读
     );
 
     // 两个reg
