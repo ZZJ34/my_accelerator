@@ -50,7 +50,7 @@ module accelerator_fsm(
     input [1:0] read_i_i,          // rom_read_and_D
     input [31:0] data_1_i,         // rom_Occ
     input [31:0] data_2_i,         // rom_Occ
-    input [7:0] data_i             // rom_C
+    input [7:0] data_i,             // rom_C
 
     output seq_we_state_o,
     output seq_we_InexRecur_o,
