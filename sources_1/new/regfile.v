@@ -26,9 +26,14 @@ module regfile#(
     input clk,
     input rst_n,
     
-    // 不支持随机写
-    input we,               // 写使能
-    input [DATA_WIDTH-1:0] w_data,    // 写数据
+    // 顺序写
+    input seq_we,                            // 顺序写使能
+    input [DATA_WIDTH-1:0] seq_w_data,       // 顺序写数据
+
+    // 随机写
+    input ran_we,                            // 随机写使能
+    input [11:0] ran_w_addr,                 // 随机写读地址
+    input [DATA_WIDTH-1:0] ran_w_data,       // 随机写数据
 
     // 支持顺序读和随机读
     input seq_re,                            // 顺序读使能
@@ -53,9 +58,20 @@ module regfile#(
         if(!rst_n) 
             pc <= 0;
         else begin
-            if(we) begin
-                mem[pc] <= w_data;
+            if(seq_we) begin
+                mem[pc] <= seq_w_data;
                 pc <= pc + 1;
+            end
+        end
+    end
+
+    always @(posedge clk or negedge rst_n) begin
+        if(!rst_n) begin
+            
+        end
+        else begin
+            if(ran_we) begin
+                mem[ran_w_addr] <= ran_w_data;
             end
         end
     end

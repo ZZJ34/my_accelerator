@@ -27,9 +27,13 @@ module regfile_InexRecur(
     input clk,
     input rst_n,
     
-    // 不支持随机写
-    input we,              // 写使能
-    input [31:0] w_data,   // 写数据
+    input seq_we,              // 写使能
+    input [31:0] seq_w_data,   // 写数据
+
+    input ran_we,
+    input [11:0] ran_w_addr,
+    input [31:0] ran_w_data,
+
 
     // 支持顺序读和随机读
     input seq_re,             // 顺序读使能
@@ -52,8 +56,12 @@ module regfile_InexRecur(
         .clk(clk),
         .rst_n(rst_n),
     
-        .we(we),               
-        .w_data(w_data),    
+        .seq_we(seq_we),                            
+        .seq_w_data(seq_w_data),       
+
+        .ran_we(ran_we),                           
+        .ran_w_addr(ran_w_addr),                 
+        .ran_w_data(ran_w_data),          
 
         .seq_re(seq_re),                           
         .seq_r_data(seq_r_data),               

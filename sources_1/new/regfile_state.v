@@ -30,9 +30,12 @@ module regfile_state(
     input clk,
     input rst_n,
     
-    // 不支持随机写
-    input we,               // 写使能
-    input [17:0] w_data,    // 写数据
+    input seq_we, 
+    input [17:0] seq_w_data,    // 写数据
+
+    input ran_we,                  // 随机写使能
+    input [11:0] ran_w_addr,       // 随机写读地址
+    input [17:0] ran_w_data,       // 随机写数据
 
     // 支持顺序读和随机读
     input seq_re,                 // 顺序读使能
@@ -55,8 +58,12 @@ module regfile_state(
         .clk(clk),
         .rst_n(rst_n),
     
-        .we(we),               
-        .w_data(w_data),    
+        .seq_we(seq_we),                            
+        .seq_w_data(seq_w_data),       
+
+        .ran_we(ran_we),                           
+        .ran_w_addr(ran_w_addr),                 
+        .ran_w_data(ran_w_data),     
 
         .seq_re(seq_re),                           
         .seq_r_data(seq_r_data),               

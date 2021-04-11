@@ -75,16 +75,16 @@ module test_accelerator_fsm(
         we_InexRecur = 1;
         we_state = 1;
         w_data_InexRecur = 32'h02_01_00_06;
-        w_data_state = 18'b0_0110_0000_0000_0000_0;
+        w_data_state = 18'b0_0000_0000_0000_0000_0;
         #10
         w_data_InexRecur = 32'h01_00_00_06;
-        w_data_state = 18'b00000_0000_0000_0000_1;
+        w_data_state = 18'b0_0000_0000_0000_0000_1;
         #10
         w_data_InexRecur = 32'h00_ff_00_06;
-        w_data_state = 18'b00000_0000_0000_0001_1;
+        w_data_state = 18'b0_0000_0000_0000_0001_1;
         #10
         w_data_InexRecur = 32'h00_f1_00_06;
-        w_data_state = 18'b00000_0000_0000_0010_1;
+        w_data_state = 18'b0_0000_0000_0000_0010_1;
         #10
         we_InexRecur = 0;
         we_state = 0;
@@ -134,8 +134,12 @@ module test_accelerator_fsm(
         .clk(clk), 
         .rst_n(rst_n), 
         
-        .we(we_InexRecur),
-        .w_data(w_data_InexRecur),
+        .seq_we(we_InexRecur),
+        .seq_w_data(w_data_InexRecur),
+
+        .ran_we(),
+        .ran_w_addr(),
+        .ran_w_data(),
 
         .seq_re(seq_re_InexRecur),
 
@@ -150,8 +154,12 @@ module test_accelerator_fsm(
         .clk(clk), 
         .rst_n(rst_n), 
         
-        .we(we_state),
-        .w_data(w_data_state),
+        .seq_we(we_state),
+        .seq_w_data(w_data_state),
+
+        .ran_we(),
+        .ran_w_addr(),
+        .ran_w_data(),
 
         .seq_re(seq_re_state),
 
