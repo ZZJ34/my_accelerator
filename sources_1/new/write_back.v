@@ -53,13 +53,13 @@ module write_back(
     output reg [31:0] seq_w_data_InexRecur,
 
     output reg ran_we_state,
-    output reg ran_we_InexRecur,
+    output reg ran_we_InexRecur,               // 似乎没有InexRecur 的随机读
 
     output reg [17:0] ran_w_data_state,
-    output reg [31:0] ran_w_data_InexRecur,
+    output reg [31:0] ran_w_data_InexRecur,    // 似乎没有InexRecur 的随机读
 
     output reg [11:0] ran_w_addr_state,
-    output reg [11:0] ran_w_addr_InexRecur
+    output reg [11:0] ran_w_addr_InexRecur     // 似乎没有InexRecur 的随机读
     );
 
     always @(*) begin
@@ -81,19 +81,19 @@ module write_back(
             // 这里区分一下两种不同的结束状态
             if(over_1_i) begin
                 ran_we_state <= 1;
-                ran_w_data_state <= 18'bz_zzzz_zzzz_zzzz_zzzz_1;
+                ran_w_data_state <= 18'bx_xxxx_xxxx_xxxx_xxxx_1;
                 ran_w_addr_state <= current_addr_i;
             end
 
             if(over_2_i) begin
                 ran_we_state <= 1;
-                ran_w_data_state <= 18'bz_zzzz_zzzz_zzzz_zzzz_1;
+                ran_w_data_state <= 18'bx_xxxx_xxxx_xxxx_xxxx_1;
                 ran_w_addr_state <= current_addr_i;
             end
 
             if(en_new_position_i) begin
                 ran_we_state <= 1;
-                ran_w_data_state <= { new_position_i, 13'bz };
+                ran_w_data_state <= { new_position_i, 13'bx };
                 ran_w_addr_state <= current_addr_i;
             end
 
