@@ -27,7 +27,7 @@
 module accelerator_top(
     input clk,           // 时钟
     input rst_n,         // 复位
-    input is_start,       // 开始执行
+    input is_start,      // 开始执行
     // rom_C
     output       ce_rom_C_o,
     output [1:0] addr_rom_C_o,
@@ -42,6 +42,10 @@ module accelerator_top(
     input        ran_we_InexRecur,
     input [11:0] ran_w_addr_InexRecur,
     input [31:0] ran_w_data_InexRecur
+    // regfile_state 的随机写端口
+    input        ran_we_state_external,
+    input [11:0] ran_w_addr_state_external,
+    input [17:0] ran_w_data_state_external
     );
     
     // accelerator_fsm & regfile_InexRecur => read
@@ -70,17 +74,24 @@ module accelerator_top(
     
     // accelerator_fsm & regfile_state => write
     wire seq_we_state;
+    wire ran_we_state_interior;
     wire ran_we_state;
+    wire [11:0] ran_w_addr_state_interior;
     wire [11:0] ran_w_addr_state;
+    wire [17:0] ran_w_data_state_interior;
     wire [17:0] ran_w_data_state;
     wire [17:0] seq_w_data_state;
 
-   
     // accelerator_fsm & rom_read_and_D => read
     wire ce_rom_read_and_D;
     wire [7:0] addr_rom_read_and_D;
     wire [7:0] d_i;
     wire [1:0] read_i; 
+
+
+    assign ran_we_state = is_start == 0 ? ran_we_state_external : ran_w_addr_state_interior;
+    assign ran_w_addr_state = is_start == 0 ? ran_w_addr_state_external : ran_w_addr_state_interior;
+    assign ran_w_data_state = is_start == 0 ? ran_w_data_state_external : ran_w_data_state_interior;
 
     accelerator_fsm accelerator_fsm_inst(
         .clk(clk),
@@ -121,20 +132,21 @@ module accelerator_top(
         .seq_w_data_state_o(seq_w_data_state),
         .seq_w_data_InexRecur_o(seq_w_data_InexRecur),
 
-        .ran_we_state_o(ran_we_state),
+        .ran_we_state_o(ran_we_state_interior),
         .ran_we_InexRecur_o(),                      
 
-        .ran_w_data_state_o(ran_w_data_state),
+        .ran_w_data_state_o(ran_w_data_state_interior),
         .ran_w_data_InexRecur_o(),    
 
-        .ran_w_addr_state_o(ran_w_addr_state),
+        .ran_w_addr_state_o(ran_w_addr_state_interior),
         .ran_w_addr_InexRecur_o()     
     );
 
     /*
     * 回写模块不涉及 regfile_InexRecur 的随机写
-    * 
     * 将 regfile_InexRecur 的随机写端口暴露给顶层，实现初始数据的写入
+    *
+    * 也需要将 regfile_state 的随机写端口暴露给顶层，实现初始数据的写入
     */
 
     regfile_InexRecur regfile_InexRecur_inst(

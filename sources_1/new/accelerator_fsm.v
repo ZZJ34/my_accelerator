@@ -117,6 +117,7 @@ module accelerator_fsm(
         .state(state_out)
     );
     
+    
     // 取参数
     get_param get_param_inst(
         .clk(clk),                   // 时钟信号
