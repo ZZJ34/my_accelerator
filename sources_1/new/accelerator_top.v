@@ -41,7 +41,7 @@ module accelerator_top(
     // regfile_InexRecur 的随机写端口
     input        ran_we_InexRecur,
     input [11:0] ran_w_addr_InexRecur,
-    input [31:0] ran_w_data_InexRecur
+    input [31:0] ran_w_data_InexRecur,
     // regfile_state 的随机写端口
     input        ran_we_state_external,
     input [11:0] ran_w_addr_state_external,
