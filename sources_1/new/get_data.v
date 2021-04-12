@@ -238,7 +238,6 @@ module get_data(
                     data_1_out <= data_1[31:24];
                     data_2_out <= data_2[31:24];
                 end
-                // end
                 `STOP_1,`STOP_2,`A_MATCH,`C_MATCH,`G_MATCH,`T_MATCH,`A_SNP,`C_SNP,`G_SNP,`T_SNP:begin
                     // 使能
                     ce_rom_C <= 0;

@@ -63,6 +63,14 @@ module test_regfile(
         ran_we <= 1;
         ran_w_addr <= 0;
         ran_w_data <= 8'bxxxx_0000;
+
+        #10
+        ran_w_addr <= 5;
+        ran_w_data <= 8'b1010_0000;
+
+        #10
+        ran_w_addr <= 6;
+        ran_w_data <= 8'b1010_0001;
     end
 
     always #5 clk = ~clk;

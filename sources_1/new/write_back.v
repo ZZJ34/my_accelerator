@@ -33,8 +33,9 @@ module write_back(
     input [7:0] current_k_i,
     input [7:0] current_l_i,
     
-    input over_1_i,               // 条件1中止   z < D(i)   “1”有效
-    input over_2_i,               // 条件2中止   i < 0      “1”有效
+    input over_1_i,               // 条件1中止   z < D(i)    “1”有效
+    input over_2_i,               // 条件2中止   i < 0       “1”有效
+    input over_3_i,               // 条件3中止   本次调用完成 “1”有效
 
     input en_new_position_i,      // 是否更新当前参数执行位置    “1”有效
     input [4:0] new_position_i,   // 新的执行位置
@@ -91,6 +92,12 @@ module write_back(
                 ran_w_addr_state <= current_addr_i;
             end
 
+            if(over_3_i) begin
+                ran_we_state <= 1;
+                ran_w_data_state <= 18'bx_xxxx_xxxx_xxxx_xxxx_1;
+                ran_w_addr_state <= current_addr_i;
+            end
+
             if(en_new_position_i) begin
                 ran_we_state <= 1;
                 ran_w_data_state <= { new_position_i, 13'bx };
@@ -101,7 +108,7 @@ module write_back(
                 seq_we_InexRecur <= 1;
                 seq_w_data_InexRecur <= { i_new_i, z_new_i, k_new_i, l_new_i};
                 seq_we_state <= 1;
-                seq_w_data_state <= { 5'b0_0000, current_addr_i, 0 };
+                seq_w_data_state <= { 5'b0_0000, current_addr_i, 1'b0 };
             end
             
         end

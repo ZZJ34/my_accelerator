@@ -89,7 +89,7 @@ module accelerator_top(
     wire [1:0] read_i; 
 
 
-    assign ran_we_state = is_start == 0 ? ran_we_state_external : ran_w_addr_state_interior;
+    assign ran_we_state = is_start == 0 ? ran_we_state_external : ran_we_state_interior;
     assign ran_w_addr_state = is_start == 0 ? ran_w_addr_state_external : ran_w_addr_state_interior;
     assign ran_w_data_state = is_start == 0 ? ran_w_data_state_external : ran_w_data_state_interior;
 
@@ -170,7 +170,7 @@ module accelerator_top(
     );
 
     regfile_state regfile_state_inst(
-        .clk(CLK),
+        .clk(clk),
         .rst_n(rst_n),
     
         .seq_we(seq_we_state), 

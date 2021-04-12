@@ -99,6 +99,7 @@ module accelerator_fsm(
     wire [7:0]  current_l_ex_to_wb;
     wire over_1_ex_to_wb;
     wire over_2_ex_to_wb;
+    wire over_3_ex_to_wb;
     wire en_new_position_ex_to_wb;
     wire [4:0] new_position_ex_to_wb;
     wire new_call_i_ex_to_wb;
@@ -232,6 +233,7 @@ module accelerator_fsm(
     
         .over_1(over_1_ex_to_wb),             // 条件1中止   z < D(i)   “1”有效
         .over_2(over_2_ex_to_wb),             // 条件2中止   i < 0      “1”有效
+        .over_3(over_3_ex_to_wb),             // 条件3中止  本次调用完成 “1”有效
 
         .en_new_position(en_new_position_ex_to_wb), // 是否更新当前参数执行位置    “1”有效
         .new_position(new_position_ex_to_wb),       // 新的执行位置
@@ -258,6 +260,7 @@ module accelerator_fsm(
     
         .over_1_i(over_1_ex_to_wb),               // 条件1中止   z < D(i)   “1”有效
         .over_2_i(over_2_ex_to_wb),               // 条件2中止   i < 0      “1”有效
+        .over_3_i(over_3_ex_to_wb),               // 条件3中止  本次调用完成 “1”有效
 
         .en_new_position_i(en_new_position_ex_to_wb),   // 是否更新当前参数执行位置    “1”有效
         .new_position_i(new_position_ex_to_wb),                              // 新的执行位置

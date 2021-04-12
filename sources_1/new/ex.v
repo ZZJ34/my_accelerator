@@ -45,8 +45,9 @@ module ex(
     output reg [7:0] current_k,
     output reg [7:0] current_l,
     
-    output reg over_1,             // 条件1中止   z < D(i)   “1”有效
-    output reg over_2,             // 条件2中止   i < 0      “1”有效
+    output reg over_1,             // 条件1中止   z < D(i)    “1”有效
+    output reg over_2,             // 条件2中止   i < 0       “1”有效
+    output reg over_3,             // 条件3中止   本次调用完成 “1”有效
 
     output reg en_new_position,    // 是否更新当前参数执行位置    “1”有效
     output reg [4:0] new_position, // 新的执行位置
@@ -67,6 +68,7 @@ module ex(
             current_l <= 0;
             over_1 <= 0;
             over_2 <= 0;
+            over_3 <= 0;
             en_new_position <= 0;
             new_position <= 0;
 
@@ -88,6 +90,7 @@ module ex(
                     if( $signed(z_in) < $signed(d_i_in) ) begin
                         over_1 <= 1;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 0;
                         new_position <= 0;
@@ -103,6 +106,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `STOP_1;
@@ -121,6 +125,7 @@ module ex(
                     if( $signed(i_in) < $signed(0) ) begin
                         over_1 <= 0;
                         over_2 <= 1;
+                        over_3 <= 0;
 
                         en_new_position <= 0;
                         new_position <= 0;
@@ -136,6 +141,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `STOP_2;
@@ -168,6 +174,7 @@ module ex(
                     if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `A_DELETION;
@@ -183,6 +190,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `C_INSERTION;
@@ -200,6 +208,7 @@ module ex(
                     if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `C_DELETION;
@@ -232,6 +241,7 @@ module ex(
                     if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `G_DELETION;
@@ -247,6 +257,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `T_INSERTION;
@@ -264,6 +275,7 @@ module ex(
                     if((C_in + data_1_in + 1) <= (C_in + data_2_in)) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `T_DELETION;
@@ -271,31 +283,51 @@ module ex(
                         new_call <= 1;
                         i_new <= i_in;
                         z_new <= z_in - 1;
-                        k_new <= k_in;
-                        l_new <= l_in;
+                        k_new <= C_in + data_1_in + 1;
+                        l_new <= C_in + data_2_in;
 
                         finish <= 0;
                     end
                     else begin
-                        over_1 <= 0;
-                        over_2 <= 0;
+                        if(addr_in == 0) begin
+                            over_1 <= 0;
+                            over_2 <= 0;
+                            over_3 <= 0;
 
-                        en_new_position <= 0;
-                        new_position <= 0;
+                            en_new_position <= 0;
+                            new_position <= 0;
 
-                        new_call <= 0;
-                        i_new <= 0;
-                        z_new <= 0;
-                        k_new <= 0;
-                        l_new <= 0;
+                            new_call <= 0;
+                            i_new <= 0;
+                            z_new <= 0;
+                            k_new <= 0;
+                            l_new <= 0;
 
-                        finish <= 1;
+                            finish <= 1; 
+                        end
+                        else begin
+                            over_1 <= 0;
+                            over_2 <= 0;
+                            over_3 <= 1;
+
+                            en_new_position <= 0;
+                            new_position <= 0;
+
+                            new_call <= 0;
+                            i_new <= 0;
+                            z_new <= 0;
+                            k_new <= 0;
+                            l_new <= 0;
+
+                            finish <= 0;
+                        end
                     end
                 end
                 `A_DELETION: begin
                     if(read_i_in == 2'b00) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `A_MATCH;
@@ -311,6 +343,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `A_SNP;
@@ -328,6 +361,7 @@ module ex(
                     if(read_i_in == 2'b01) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `C_MATCH;
@@ -343,6 +377,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `C_SNP;
@@ -360,6 +395,7 @@ module ex(
                     if(read_i_in == 2'b10) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `G_MATCH;
@@ -375,6 +411,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `G_SNP;
@@ -392,6 +429,7 @@ module ex(
                     if(read_i_in == 2'b10) begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `T_MATCH;
@@ -407,6 +445,7 @@ module ex(
                     else begin
                         over_1 <= 0;
                         over_2 <= 0;
+                        over_3 <= 0;
 
                         en_new_position <= 1;
                         new_position <= `T_SNP;
@@ -423,6 +462,7 @@ module ex(
                 `A_MATCH,`A_SNP: begin
                     over_1 <= 0;
                     over_2 <= 0;
+                    over_3 <= 0;
 
                     en_new_position <= 1;
                     new_position <= `C_INSERTION;
@@ -438,6 +478,7 @@ module ex(
                 `C_MATCH,`C_SNP: begin
                     over_1 <= 0;
                     over_2 <= 0;
+                    over_3 <= 0;
 
                     en_new_position <= 1;
                     new_position <= `G_INSERTION;
@@ -453,6 +494,7 @@ module ex(
                 `G_MATCH,`G_SNP: begin
                     over_1 <= 0;
                     over_2 <= 0;
+                    over_3 <= 0;
 
                     en_new_position <= 1;
                     new_position <= `T_INSERTION;
@@ -466,19 +508,38 @@ module ex(
                     finish <= 0;
                 end
                 `T_MATCH,`T_SNP: begin
-                    over_1 <= 0;
-                    over_2 <= 0;
+                    if(addr_in == 0) begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+                        over_3 <= 0;
 
-                    en_new_position <= 1;
-                    new_position <= `T_INSERTION;
+                        en_new_position <= 0;
+                        new_position <= 0;
 
-                    new_call <= 0;
-                    i_new <= 0;
-                    z_new <= 0;
-                    k_new <= 0;
-                    l_new <= 0;
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
 
-                    finish <= 1;
+                        finish <= 1; 
+                    end
+                    else begin
+                        over_1 <= 0;
+                        over_2 <= 0;
+                        over_3 <= 1;
+
+                        en_new_position <= 0;
+                        new_position <= 0;
+
+                        new_call <= 0;
+                        i_new <= 0;
+                        z_new <= 0;
+                        k_new <= 0;
+                        l_new <= 0;
+
+                        finish <= 0;
+                    end
                 end
                 default: begin
 

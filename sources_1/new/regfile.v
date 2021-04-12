@@ -76,6 +76,9 @@ module regfile#(
                 if(ran_we) begin
                     mem[ran_w_addr][i] <= (ran_w_data[i] === 1'bx ? mem[ran_w_addr][i] : ran_w_data[i]);
                 end
+                if(ran_w_addr == 0 && pc == 0) begin
+                    pc <= 1;
+                end
             end
         end
     end

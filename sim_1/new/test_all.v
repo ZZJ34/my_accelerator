@@ -52,15 +52,19 @@ module test_all(
         rst_n = 1;
 
         #10
-        ran_we_InexRecur = 1;
         ran_we_state_external = 1;
-        ran_w_data_InexRecur = 32'h02_01_00_06;
+        ran_we_InexRecur = 1;
+        
         ran_w_data_state_external = 18'b0_0000_0000_0000_0000_0;
+        ran_w_data_InexRecur = 32'h02_01_00_06;
+        
 
-        #10
-        we_InexRecur = 0;
-        we_state = 0;
+        #20
+        ran_we_InexRecur = 0;
+        ran_we_state_external = 0;
 
+        #30
+        is_start = 1;
     end
 
     always #5 clk = ~clk;
