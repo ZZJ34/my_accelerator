@@ -32,7 +32,7 @@ module accelerator_top(
     output       ce_rom_C_o,
     output [1:0] addr_rom_C_o,
     input  [7:0] data_i,
-    // rom_C
+    // rom_Occ
     output       ce_rom_Occ_o,
     output [7:0] addr1_rom_Occ_o,
     output [7:0] addr2_rom_Occ_o,
