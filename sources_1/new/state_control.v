@@ -73,6 +73,7 @@ module state_control(
                         state <= EX;
                 end
                 GET_DATA_2: state <= GET_DATA_3;
+                GET_DATA_3: state <= EX;
                 EX        : state <= WRITE_BACK;
                 WRITE_BACK: begin
                     // if( stay_count == 0) begin
