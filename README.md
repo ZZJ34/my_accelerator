@@ -50,14 +50,19 @@
 
   2、3项和加速器核心构成一个完整的加速器
 
+  从 rom_Occ 中需要获取两次数据，分两次读数据，对应状态 **get_data_2** 和 **get_data_3**
+
   ### 状态机
   
   ```mermaid
     stateDiagram
         [*] --> idle 
         idle --> get_param : is_start == true
-        get_param --> get_data : is_find == true
-        get_data --> ex
+        get_param --> get_data_1 : is_find == true
+        get_data_1 --> ex : is_get_data_in_Occ == false
+        get_data_1 --> get_data_2 : is_get_data_in_Occ == true
+        get_data_2 --> get_data_3
+        get_data_3 --> ex
         ex --> write_back
         write_back --> get_param
         ex --> finish : is_finish == true
@@ -141,7 +146,11 @@
 |   |   |   |
 |   |   |   ├── get_param.v     // 取参数
 |   |   |   |
-|   |   |   ├── get_data.v      // 取数据
+|   |   |   ├── get_data_1.v    // 取数据(rom_read_and_D、rom_C)
+|   |   |   |
+|   |   |   ├── get_data_2.v    // 取数据(rom_Occ)
+|   |   |   |
+|   |   |   ├── get_data_3.v    // 取数据(rom_Occ)
 |   |   |   |
 |   |   |   ├── exa.v           // 判断/执行
 |   |   |   |
@@ -164,12 +173,14 @@
 
 ---
 
-## 备注（2020/4/13）
+## 备注（2020/4/22）
 
 🐖注：rom 中的数据在初始化的时候被加载进去
 
 🐖注：当前尚未进行板载验证
 
-python 和 C/C++ 语言执行效率的差别
+有关 python 和 C/C++ 语言执行效率的差别，参考 `./reference` 中的总结。
 
 PL 部分使用 DDR 读取数据
+
+多核心处理
