@@ -302,7 +302,7 @@ module accelerator_fsm(
     
         // 输出给下一个模块的数据
         .position_out(position_data3_to_ex),
-        'addr_out(addr_data3_to_ex),
+        .addr_out(addr_data3_to_ex),
         .i_out(i_data3_to_ex),
         .z_out(z_data3_to_ex),
         .k_out(k_data3_to_ex),
