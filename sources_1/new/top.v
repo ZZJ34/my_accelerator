@@ -42,9 +42,9 @@ module top(
     // rom_Occ
     wire ce_rom_Occ;
     wire [7:0] addr1_rom_Occ;
-    wire [7:0] addr2_rom_Occ;
+    // wire [7:0] addr2_rom_Occ;
     wire [31:0] data_1;         
-    wire [31:0] data_2;         
+    // wire [31:0] data_2;         
 
 
     accelerator_top accelerator_top_inst(
@@ -58,9 +58,9 @@ module top(
         // rom_Occ
         .ce_rom_Occ_o(ce_rom_Occ),
         .addr1_rom_Occ_o(addr1_rom_Occ),
-        .addr2_rom_Occ_o(addr2_rom_Occ),
+        // .addr2_rom_Occ_o(addr2_rom_Occ),
         .data_1_i(data_1),
-        .data_2_i(data_2),
+        // .data_2_i(data_2),
         // regfile_InexRecur 的随机写端口
         .ran_we_InexRecur(ran_we_InexRecur),
         .ran_w_addr_InexRecur(ran_w_addr_InexRecur),
@@ -80,8 +80,8 @@ module top(
     rom_Occ rom_Occ_inst(
         .ce(ce_rom_Occ),
         .addr_1(addr1_rom_Occ),
-        .addr_2(addr2_rom_Occ),
+        .addr_2(),
         .data_1(data_1),
-        .data_2(data_2)
+        .data_2()
     );
 endmodule

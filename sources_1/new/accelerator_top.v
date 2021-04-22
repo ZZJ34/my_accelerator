@@ -35,9 +35,9 @@ module accelerator_top(
     // rom_Occ
     output       ce_rom_Occ_o,
     output [7:0] addr1_rom_Occ_o,
-    output [7:0] addr2_rom_Occ_o,
+    // output [7:0] addr2_rom_Occ_o,
     input  [31:0] data_1_i,
-    input  [31:0] data_2_i,
+    // input  [31:0] data_2_i,
     // regfile_InexRecur 的随机写端口
     input        ran_we_InexRecur,
     input [11:0] ran_w_addr_InexRecur,
@@ -117,13 +117,13 @@ module accelerator_top(
 
         .addr_rom_C_o(addr_rom_C_o),
         .addr1_rom_Occ_o(addr1_rom_Occ_o),
-        .addr2_rom_Occ_o(addr2_rom_Occ_o),
+        // .addr2_rom_Occ_o(addr2_rom_Occ_o),
         .addr_rom_read_and_D_o(addr_rom_read_and_D),
 
         .d_i_i(d_i),                // rom_read_and_D
         .read_i_i(read_i),          // rom_read_and_D
         .data_1_i(data_1_i),        // rom_Occ
-        .data_2_i(data_2_i),        // rom_Occ
+        // .data_2_i(data_2_i),        // rom_Occ
         .data_i(data_i),            // rom_C
 
         .seq_we_state_o(seq_we_state),

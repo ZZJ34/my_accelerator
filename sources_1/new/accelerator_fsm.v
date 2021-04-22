@@ -43,13 +43,13 @@ module accelerator_fsm(
 
     output [1:0] addr_rom_C_o,
     output [7:0] addr1_rom_Occ_o,
-    output [7:0] addr2_rom_Occ_o,                          // 不用
+    // output [7:0] addr2_rom_Occ_o,                          // 不用
     output [7:0] addr_rom_read_and_D_o,
 
     input [7:0] d_i_i,             // rom_read_and_D
     input [1:0] read_i_i,          // rom_read_and_D
     input [31:0] data_1_i,         // rom_Occ
-    input [31:0] data_2_i,         // rom_Occ               // 不用
+    // input [31:0] data_2_i,         // rom_Occ               // 不用
     input [7:0] data_i,            // rom_C
 
     output seq_we_state_o,
@@ -105,7 +105,7 @@ module accelerator_fsm(
     wire [7:0] l_data2_to_data3;
     wire [11:0] addr_data2_to_data3;
     wire [4:0] position_data2_to_data3;
-    wire [31:0] data_1_data2_to_ex;
+    wire [7:0] data_1_data2_to_ex;
 
     // get_data_3 到 ex
     wire [7:0] i_data3_to_ex;
@@ -114,7 +114,7 @@ module accelerator_fsm(
     wire [7:0] l_data3_to_ex;
     wire [11:0] addr_data3_to_ex;
     wire [4:0] position_data3_to_ex;
-    wire [31:0] data_2_data3_to_ex;
+    wire [7:0] data_2_data3_to_ex;
 
     wire [7:0] i_datax_to_ex;
     wire [7:0] z_datax_to_ex;
