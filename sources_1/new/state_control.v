@@ -39,13 +39,13 @@ module state_control(
     localparam WRITE_BACK= 3'b100;   // 存数据      （存在对应执行模块）
     localparam DONE      = 3'b101;   // 遍历结束
 
-    reg stay_count;
+    // reg stay_count;
 
     // 状态切换
     always @(posedge clk) begin
         if(!rst_n) begin
             state <= IDLE;
-            stay_count <= 0;
+            // stay_count <= 0;
         end
         else if(is_finish)
             state <= DONE;
