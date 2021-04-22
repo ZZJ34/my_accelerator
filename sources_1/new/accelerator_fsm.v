@@ -116,6 +116,21 @@ module accelerator_fsm(
     wire [4:0] position_data3_to_ex;
     wire [31:0] data_2_data3_to_ex;
 
+    wire [7:0] i_datax_to_ex;
+    wire [7:0] z_datax_to_ex;
+    wire [7:0] k_datax_to_ex;
+    wire [7:0] l_datax_to_ex;
+    wire [11:0] addr_datax_to_ex;
+    wire [4:0] position_datax_to_ex;
+
+    assign i_datax_to_ex = !is_get_data_in_Occ ? i_data1_to_data2 : i_data3_to_ex;
+    assign z_datax_to_ex = !is_get_data_in_Occ ? z_data1_to_data2 : z_data3_to_ex;
+    assign k_datax_to_ex = !is_get_data_in_Occ ? k_data1_to_data2 : k_data3_to_ex;
+    assign l_datax_to_ex = !is_get_data_in_Occ ? l_data1_to_data2 : l_data3_to_ex;
+    assign addr_datax_to_ex = !is_get_data_in_Occ ? addr_data1_to_data2 : addr_data3_to_ex;
+    assign position_datax_to_ex = !is_get_data_in_Occ ? position_data1_to_data2 : position_data3_to_ex;
+
+    // ex 到 wb
     wire [11:0] current_addr_ex_to_wb;
     wire [7:0]  current_k_ex_to_wb;
     wire [7:0]  current_l_ex_to_wb;
@@ -317,12 +332,12 @@ module accelerator_fsm(
         .en_ex(state_out),   // 该模块使能
 
         // 来自上一个模块的输出
-        .position_in(position_data3_to_ex),
-        .addr_in(addr_data3_to_ex),
-        .i_in(i_data3_to_ex),
-        .z_in(z_data3_to_ex),
-        .k_in(k_data3_to_ex),
-        .l_in(l_data3_to_ex),
+        .position_in(position_datax_to_ex),
+        .addr_in(addr_datax_to_ex),
+        .i_in(i_datax_to_ex),
+        .z_in(z_datax_to_ex),
+        .k_in(k_datax_to_ex),
+        .l_in(l_datax_to_ex),
         .d_i_in(d_i_data1_to_ex),
         .read_i_in(read_i_data1_to_ex),
         .data_1_in(data_1_data2_to_ex),
