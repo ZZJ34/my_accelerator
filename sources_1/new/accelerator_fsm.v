@@ -158,7 +158,7 @@ module accelerator_fsm(
     );
     
     // 取数据
-    get_data get_data_inst(
+    get_data_1 get_data_1_inst(
         .rst_n(rst_n),               // 复位信号
 
         .en_get_data(state_out),     // 该模块使能

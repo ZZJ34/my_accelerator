@@ -3,14 +3,16 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2021/04/09 08:36:15
+// Create Date: 2021/04/22 11:30:23
 // Design Name: 取数据
-// Module Name: get_data
+// Module Name: get_data_3
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
 // Description: 
 //            根据 get_param 模块传送的参数（i，z，k，l）从 rom 取出对应的数据
+//            
+//            从 rom_Occ 取出 l
 // 
 // Dependencies: 
 // 
@@ -20,8 +22,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`include "config.v"
-module get_data(
+
+module get_data_3(
     input rst_n,               // 复位信号
 
     input [2:0] en_get_data,  // 该模块使能
