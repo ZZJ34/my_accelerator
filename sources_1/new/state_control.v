@@ -28,16 +28,19 @@ module state_control(
     input is_finish,                // 是否已完成所有迭代
     input is_start,                 // 是否开始开始
     input is_find,                  // 是否找到尚未完成的参数
+    input is_get_data_in_Occ,       // 是否获取Occ中的数据
     output reg [2:0] state
     );
     
     // 定义状态
     localparam IDLE      = 3'b000;   // 空闲状态
     localparam GET_PARAM = 3'b001;   // 取参数      （存在对应执行模块）
-    localparam GET_DATA  = 3'b010;   // 取数据      （存在对应执行模块）
-    localparam EX        = 3'b011;   // 判断/执行   （存在对应执行模块）
-    localparam WRITE_BACK= 3'b100;   // 存数据      （存在对应执行模块）
-    localparam DONE      = 3'b101;   // 遍历结束
+    localparam GET_DATA_1= 3'b010;   // 取数据[C(i)、read(i)、D(i)]      （存在对应执行模块）
+    localparam GET_DATA_2= 3'b011;   // 取数据[Occ]                      （存在对应执行模块）
+    localparam GET_DATA_3= 3'b100;   // 取数据[Occ]                      （存在对应执行模块）
+    localparam EX        = 3'b101;   // 判断/执行   （存在对应执行模块）
+    localparam WRITE_BACK= 3'b110;   // 存数据      （存在对应执行模块）
+    localparam DONE      = 3'b111;   // 遍历结束
 
     // reg stay_count;
 
@@ -59,11 +62,17 @@ module state_control(
                 end
                 GET_PARAM : begin
                     if(is_find)
-                        state <= GET_DATA;
+                        state <= GET_DATA_1;
                     else
                         state <= GET_PARAM;
                 end
-                GET_DATA  : state <= EX;
+                GET_DATA_1: begin
+                    if(is_get_data_in_Occ)
+                        state <= GET_DATA_2;
+                    else
+                        state <= EX;
+                end
+                GET_DATA_2: state <= GET_DATA_3;
                 EX        : state <= WRITE_BACK;
                 WRITE_BACK: begin
                     // if( stay_count == 0) begin

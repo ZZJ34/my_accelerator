@@ -80,7 +80,7 @@ module ex(
 
             finish <= 0;
         end
-        else if(en_ex == 3'b011) begin
+        else if(en_ex == 3'b101) begin
             current_addr <= addr_in;
             current_k <= k_in;
             current_l <= l_in;

@@ -76,7 +76,7 @@ module write_back(
             ran_w_addr_state <= 0;
             ran_w_addr_InexRecur <= 0;
         end
-        else if(en_write_back == 3'b100) begin
+        else if(en_write_back == 3'b111) begin
             // 尽在当前模块使能时，输出有效的寄存器写信号
 
             // 这里区分一下两种不同的结束状态

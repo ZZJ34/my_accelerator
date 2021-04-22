@@ -27,7 +27,7 @@
 module get_data_2(
     input rst_n,               // 复位信号
 
-    input [2:0] en_get_data,  // 该模块使能
+    input [2:0] en_get_data_2,  // 该模块使能
     
     // 上一个模块的输出
     // 四个参数
@@ -75,7 +75,7 @@ module get_data_2(
             l_out <= 0;        
             data_1_out <= 0;               
         end
-        else if(en_get_data == 3'b010) begin
+        else if(en_get_data_2 == 3'b011) begin
             i_out <= i_in;
             z_out <= z_in;
             k_out <= k_in;

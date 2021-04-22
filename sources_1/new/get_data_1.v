@@ -26,7 +26,9 @@
 module get_data_1(
     input rst_n,               // 复位信号
 
-    input [2:0] en_get_data,  // 该模块使能
+    input [2:0] en_get_data_1,  // 该模块使能
+
+    output reg get_data_in_Occ,
     
     // 上一个模块的输出
     // 四个参数
@@ -82,8 +84,10 @@ module get_data_1(
             d_i_out <= 0;           
             read_i_out <= 0;                 
             C_out <= 0;
+
+            get_data_in_Occ <= 0;
         end
-        else if(en_get_data == 3'b010) begin
+        else if(en_get_data_1 == 3'b010) begin
             i_out <= i_in;
             z_out <= z_in;
             k_out <= k_in;
@@ -100,6 +104,8 @@ module get_data_1(
                     addr_rom_read_and_D <= i_in;
 
                     d_i_out <= d_i;
+
+                    get_data_in_Occ <= 0;
                 end
                 `A_INSERTION: begin
                     // 使能
@@ -110,6 +116,8 @@ module get_data_1(
                     addr_rom_read_and_D <= 0;
 
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `C_INSERTION: begin
                     // 使能
@@ -120,6 +128,8 @@ module get_data_1(
                     addr_rom_read_and_D <= 0;
 
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `G_INSERTION: begin
                     // 使能
@@ -130,6 +140,8 @@ module get_data_1(
                     addr_rom_read_and_D <= 0;
 
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `T_INSERTION: begin
                     // 使能
@@ -140,6 +152,8 @@ module get_data_1(
                     addr_rom_read_and_D <= 0;;
 
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `A_DELETION: begin
                     //使能
@@ -151,6 +165,8 @@ module get_data_1(
 
                     read_i_out <= read_i;
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `C_DELETION: begin
                     //使能
@@ -162,6 +178,8 @@ module get_data_1(
 
                     read_i_out <= read_i;
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `G_DELETION: begin
                     // 使能
@@ -173,6 +191,8 @@ module get_data_1(
 
                     read_i_out <= read_i;
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `T_DELETION: begin
                     // 使能
@@ -184,6 +204,8 @@ module get_data_1(
 
                     read_i_out <= read_i;
                     C_out <= data;
+
+                    get_data_in_Occ <= 1;
                 end
                 `STOP_1,`STOP_2,`A_MATCH,`C_MATCH,`G_MATCH,`T_MATCH,`A_SNP,`C_SNP,`G_SNP,`T_SNP:begin
                     // 使能
@@ -197,6 +219,8 @@ module get_data_1(
                     d_i_out <= 0;           
                     read_i_out <= 0;                
                     C_out <= 0;
+
+                    get_data_in_Occ <= 0;
                 end
                 default: begin
                     // 使能
