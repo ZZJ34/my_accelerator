@@ -23,11 +23,9 @@
 module rom_Occ(
         input ce,
 
-        input       [7:0] addr_1,
-        input       [7:0] addr_2,
+        input       [7:0] addr,
 
-        output reg [31:0] data_1,
-        output reg [31:0] data_2
+        output reg [31:0] data
 
     );
 
@@ -43,13 +41,11 @@ module rom_Occ(
 
     always @(*) begin
         if(!ce) begin
-            data_1 <= 0;
-            data_2 <= 0;
+            data <= 0;
         end
         else begin
             // 地址 16'hff 被认为是 -1，则该 mem 的最后一个地址数据无效
-            data_1 <= addr_1 == 16'hff ? 0: mem[addr_1];
-            data_2 <= addr_2 == 16'hff ? 0: mem[addr_2];
+            data <= addr == 16'hff ? 0: mem[addr];
         end
     end
 
