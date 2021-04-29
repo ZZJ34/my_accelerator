@@ -72,7 +72,7 @@ end
 always @ (posedge clk)
 begin
 	if (!rst_n)	grant <= 2'b0;
-	else		    grant <= next_grant;
+	else		grant <= next_grant;
 end
 
 always @ (posedge clk)
