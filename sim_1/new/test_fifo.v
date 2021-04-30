@@ -42,7 +42,7 @@ module test_fifo(
         wr_en = 0;
         rd_en = 0;
 
-        #100
+        #50
         rst_n = 1;
 
         #20
@@ -61,8 +61,18 @@ module test_fifo(
         #20
         rd_en = 1;
 
-        #40
+        #120
         rd_en = 0;
+
+        #50
+        wr_en = 1;
+        for ( i= 0; i<5; i = i+1) begin
+            #10
+            data_in = data_in + 1;
+        end
+
+        #10
+        wr_en = 0;
 
     end
 

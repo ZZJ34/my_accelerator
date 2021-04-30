@@ -33,7 +33,7 @@ module storage_control#(
     output reg [11:0] number_and_addr,   // 编号+读取地址
     output reg        storage_valid,     // 当前有效
 
-    input      [31:0] data_from_storage,      // 来自于存储器的数据
+    input      [35:0] data_from_storage,      // 来自于存储器的数据
     output reg [31:0] data_to_alu,            // 输出给处理核心的数据
 
     
@@ -42,7 +42,7 @@ module storage_control#(
 
 
     input  txn_done,           // 数据传输完成（来自存储器）
-    output done                // 数据传输完成（给向处理器）
+    output reg done                // 数据传输完成（给向处理器）
 
     );
     
@@ -72,6 +72,7 @@ module storage_control#(
             number_and_addr <= 0;
             data_to_alu <= 0;
             req <= 0;
+            done <= 0;
         end
         else begin
             case (state)
@@ -87,7 +88,7 @@ module storage_control#(
                     state <= WAIT_DATA;
                 end
                 WAIT_DATA: begin
-                    if(txn_done) state <= DONE;
+                    if(txn_done && data_from_storage[35:32] == CURRENT_NUMBER) state <= DONE;
                     else state <= state;
                 end
                 DONE: begin
@@ -112,5 +113,12 @@ module storage_control#(
         // storage_valid
         if (state == WRITE_FIFO) storage_valid <= 1;
         else storage_valid <= 0;
+        
+        // data_to_alu
+        if (state == DONE) data_to_alu <= data_from_storage[31:0];
+
+        // done
+        if (state == DONE) done <= 1;
+        else done <= 0;
     end
 endmodule

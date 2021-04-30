@@ -34,15 +34,7 @@ module data_path(
     input [7:0] storage_addr_3,
 
     input storage_ce_4,
-    input [7:0] storage_addr_4,
-
-
-    
-    // 测试端口
-    input rd_en_test,
-    output [11:0] data_out_test,
-    output        full_test,
-    output        empty_test
+    input [7:0] storage_addr_4
 
     );
 
@@ -65,6 +57,22 @@ module data_path(
 
     reg [11:0] data_to_fifo;
 
+    // fifo 和 fifo_between_rom 中间件
+    wire        is_empty;
+    wire [11:0] data_to_middleware;
+    wire        rd_en;
+
+    // fifo_between_rom 中间件和 rom
+    wire        ce;
+    wire [7:0]  addr;
+    wire        valid;
+    wire [31:0] data;
+
+
+    // 数据返回
+    wire        result_valid;
+    wire [35:0] result;
+
     
     // 存储控制器1
     storage_control #(.CURRENT_NUMBER(1), .CURRENT_GRANT(4'b0001)) storage_control_inst_1(  
@@ -76,13 +84,13 @@ module data_path(
         .number_and_addr(data_to_fifo_1), 
         .storage_valid(storage_valid_1),
 
-        .data_from_storage(),      // 来自于存储器的数据
+        .data_from_storage(result),// 来自于存储器的数据
         .data_to_alu(),            // 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_1),                    // 占用请求
+        .req(req_1),               // 占用请求
 
-        .txn_done(),               // 数据传输完成（来自存储器）
+        .txn_done(result_valid),   // 数据传输完成（来自存储器）
         .done()                    // 数据传输完成（给向处理器）
     );
 
@@ -96,13 +104,13 @@ module data_path(
         .number_and_addr(data_to_fifo_2),
         .storage_valid(storage_valid_2),
 
-        .data_from_storage(),      // 来自于存储器的数据
+        .data_from_storage(result),// 来自于存储器的数据
         .data_to_alu(),            // 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_2),                    // 占用请求
+        .req(req_2),               // 占用请求
 
-        .txn_done(),               // 数据传输完成（来自存储器）
+        .txn_done(result_valid),   // 数据传输完成（来自存储器）
         .done()                    // 数据传输完成（给向处理器）
     );
 
@@ -116,13 +124,13 @@ module data_path(
         .number_and_addr(data_to_fifo_3),
         .storage_valid(storage_valid_3),
 
-        .data_from_storage(),      // 来自于存储器的数据
+        .data_from_storage(result),// 来自于存储器的数据
         .data_to_alu(),            // 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_3),                    // 占用请求
+        .req(req_3),               // 占用请求
 
-        .txn_done(),               // 数据传输完成（来自存储器）
+        .txn_done(result_valid),   // 数据传输完成（来自存储器）
         .done()                    // 数据传输完成（给向处理器）
     );
 
@@ -136,13 +144,13 @@ module data_path(
         .number_and_addr(data_to_fifo_4), 
         .storage_valid(storage_valid_4),
 
-        .data_from_storage(),      // 来自于存储器的数据
+        .data_from_storage(result),// 来自于存储器的数据
         .data_to_alu(),            // 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_4),                    // 占用请求
+        .req(req_4),               // 占用请求
 
-        .txn_done(),               // 数据传输完成（来自存储器）
+        .txn_done(result_valid),   // 数据传输完成（来自存储器）
         .done()                    // 数据传输完成（给向处理器）
     );
 
@@ -184,10 +192,39 @@ module data_path(
         .clk(clk),
         .din(data_to_fifo),
         .wr_en(storage_valid_fifo),
-        .rd_en(rd_en_test),
-        .dout(data_out_test),
-        .full(full_test),
-        .empty(empty_test)
+        .rd_en(rd_en),
+        .dout(data_to_middleware),
+        .full(),
+        .empty(is_empty)
+    );
+    
+    // fifo_between_rom 中间件
+    fifo_between_rom fifo_between_rom_inst(
+        .clk(clk),
+        .rst_n(rst_n),
+
+        .is_empty(is_empty),
+        .data_from_fifo(data_to_middleware),
+        .rd_en(rd_en),
+
+        .base_addr(0),
+
+        .data_from_rom(data),
+        .data_valid(valid),
+        .addr(addr),
+        .ce(ce),
+
+        .result_valid(result_valid),
+        .result(result)
+    
+    );
+
+    // rom_Occ
+    rom_Occ rom_Occ_inst(
+        .ce(ce),
+        .addr(addr),
+        .data(data),
+        .valid(valid)
     );
 
 endmodule
