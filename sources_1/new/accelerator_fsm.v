@@ -48,7 +48,7 @@ module accelerator_fsm(
     input [7:0] d_i_i,             // rom_read_and_D
     input [1:0] read_i_i,          // rom_read_and_D
     input [31:0] data_Occ_i,         // rom_Occ
-    input        data_valid,
+    input        data_Occ_valid_i,   // rom_Occ
     input [7:0] data_C_i,            // rom_C
     
 
@@ -164,8 +164,8 @@ module accelerator_fsm(
     wire data_valid_2;
     wire data_valid_3;
 
-    assign data_valid_2 = state_out == GET_DATA_2 ? data_valid : 0;
-    assign data_valid_3 = state_out == GET_DATA_3 ? data_valid : 0;
+    assign data_valid_2 = state_out == GET_DATA_2 ? data_Occ_valid_i : 0;
+    assign data_valid_3 = state_out == GET_DATA_3 ? data_Occ_valid_i : 0;
 
     // 状态控制
     state_control state_control_inst(
@@ -248,7 +248,7 @@ module accelerator_fsm(
         // 存储器数据输入
         .d_i(d_i_i),             // rom_read_and_D
         .read_i(read_i_i),       // rom_read_and_D
-        .data(data_C_i),           // rom_C
+        .data(data_C_i),         // rom_C
     
         // 输出给下一个模块的数据
         .position_out(position_data1_to_data2),
