@@ -34,7 +34,7 @@ module accelerator_top(
     input  [7:0] data_i,
     // rom_Occ
     output       ce_rom_Occ_o,
-    output [7:0] addr1_rom_Occ_o,
+    output [7:0] addr_rom_Occ_o,
     // output [7:0] addr2_rom_Occ_o,
     input  [31:0] data_1_i,
     // input  [31:0] data_2_i,
@@ -116,7 +116,7 @@ module accelerator_top(
         .ce_rom_read_and_D_o(ce_rom_read_and_D),
 
         .addr_rom_C_o(addr_rom_C_o),
-        .addr1_rom_Occ_o(addr1_rom_Occ_o),
+        .addr_rom_Occ_o(addr_rom_Occ_o),
         // .addr2_rom_Occ_o(addr2_rom_Occ_o),
         .addr_rom_read_and_D_o(addr_rom_read_and_D),
 

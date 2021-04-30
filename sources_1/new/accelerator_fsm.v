@@ -42,7 +42,7 @@ module accelerator_fsm(
     output ce_rom_read_and_D_o,
 
     output [1:0] addr_rom_C_o,
-    output [7:0] addr1_rom_Occ_o,
+    output [7:0] addr_rom_Occ_o,
     // output [7:0] addr2_rom_Occ_o,                          // 不用
     output [7:0] addr_rom_read_and_D_o,
 
@@ -155,7 +155,7 @@ module accelerator_fsm(
     wire [7:0] addr_rom_Occ_from_data2;
     wire [7:0] addr_rom_Occ_from_data3;
 
-    assign addr1_rom_Occ_o = state_out == GET_DATA_2 ? addr_rom_Occ_from_data2 : (state_out == GET_DATA_3 ? addr_rom_Occ_from_data3 : 0 );
+    assign addr_rom_Occ_o = state_out == GET_DATA_2 ? addr_rom_Occ_from_data2 : (state_out == GET_DATA_3 ? addr_rom_Occ_from_data3 : 0 );
 
     // 状态控制
     state_control state_control_inst(

@@ -57,7 +57,7 @@ module top(
         .data_i(data),
         // rom_Occ
         .ce_rom_Occ_o(ce_rom_Occ),
-        .addr1_rom_Occ_o(addr_rom_Occ),
+        .addr_rom_Occ_o(addr_rom_Occ),
         // .addr2_rom_Occ_o(addr2_rom_Occ),
         .data_1_i(data_Occ),
         // .data_2_i(data_2),
