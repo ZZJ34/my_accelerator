@@ -37,15 +37,14 @@ module top(
     // rom_C
     wire ce_rom_C;
     wire [1:0] addr_rom_C;
-    wire [7:0] data;
+    wire [7:0] data_C;
 
     // rom_Occ
     wire ce_rom_Occ;
     wire [7:0] addr_rom_Occ;
-    // wire [7:0] addr2_rom_Occ;
+    
     wire [31:0] data_Occ; 
-    wire        data_valid;        
-    // wire [31:0] data_2;         
+    wire        data_valid;                
 
 
     accelerator_top accelerator_top_inst(
@@ -55,7 +54,7 @@ module top(
         // rom_C
         .ce_rom_C_o(ce_rom_C),
         .addr_rom_C_o(addr_rom_C),
-        .data_i(data),
+        .data_C_i(data_C),
         // rom_Occ
         .ce_rom_Occ_o(ce_rom_Occ),
         .addr_rom_Occ_o(addr_rom_Occ),
@@ -76,7 +75,7 @@ module top(
     rom_C rom_C_inst(
         .ce(ce_rom_C),
         .symbol(addr_rom_C),
-        .data(data)
+        .data(data_C)
     );
 
     rom_Occ rom_Occ_inst(

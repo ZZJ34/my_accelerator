@@ -43,15 +43,13 @@ module accelerator_fsm(
 
     output [1:0] addr_rom_C_o,
     output [7:0] addr_rom_Occ_o,
-    // output [7:0] addr2_rom_Occ_o,                          // 不用
     output [7:0] addr_rom_read_and_D_o,
 
     input [7:0] d_i_i,             // rom_read_and_D
     input [1:0] read_i_i,          // rom_read_and_D
     input [31:0] data_Occ_i,         // rom_Occ
     input        data_valid,
-    // input [31:0] data_2_i,         // rom_Occ               // 不用
-    input [7:0] data_i,            // rom_C
+    input [7:0] data_C_i,            // rom_C
     
 
     output seq_we_state_o,
@@ -250,7 +248,7 @@ module accelerator_fsm(
         // 存储器数据输入
         .d_i(d_i_i),             // rom_read_and_D
         .read_i(read_i_i),       // rom_read_and_D
-        .data(data_i),           // rom_C
+        .data(data_C_i),           // rom_C
     
         // 输出给下一个模块的数据
         .position_out(position_data1_to_data2),
