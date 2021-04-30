@@ -35,7 +35,7 @@ module rom_read_and_D(
     // 11 = T
 
     // 绝对路径
-    initial $readmemb("D:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/new/read_and_D.data", mem);
+    initial $readmemb("D:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/new/data/read_and_D/read_and_D.data", mem);
 
     always @(*) begin
         if(!ce) begin
