@@ -27,7 +27,9 @@
 module get_data_2(
     input rst_n,               // 复位信号
 
-    input [2:0] en_get_data_2,  // 该模块使能
+    input [2:0] en_get_data_2, // 该模块使能
+
+    output reg data_done,      // 当前模块数据获取完成
     
     // 上一个模块的输出
     // 四个参数
@@ -48,6 +50,9 @@ module get_data_2(
     
     // 存储器数据输入
     input [31:0] data,         // rom_Occ
+    
+    // 存储器数据有效
+    input data_valid,
     
     
     // 输出给下一个模块的数据
@@ -82,6 +87,7 @@ module get_data_2(
             l_out <= l_in;
             addr_out <= addr;
             position_out <= position;
+            data_done <= data_valid;
             case (position)
                 `A_INSERTION, `A_DELETION: begin
                     // 使能
@@ -137,6 +143,7 @@ module get_data_2(
         else begin
             // 使能
             ce_rom_Occ <= 0;
+            data_done <= 0;
         end
     end
 endmodule

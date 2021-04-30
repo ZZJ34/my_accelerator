@@ -25,7 +25,8 @@ module rom_Occ(
 
         input       [7:0] addr,
 
-        output reg [31:0] data
+        output reg [31:0] data,
+        output reg        valid
 
     );
 
@@ -42,10 +43,12 @@ module rom_Occ(
     always @(*) begin
         if(!ce) begin
             data <= 0;
+            valid <= 0;
         end
         else begin
             // 地址 16'hff 被认为是 -1，则该 mem 的最后一个地址数据无效
             data <= addr == 16'hff ? 0: mem[addr];
+            valid <= 1;
         end
     end
 

@@ -48,9 +48,11 @@ module accelerator_fsm(
 
     input [7:0] d_i_i,             // rom_read_and_D
     input [1:0] read_i_i,          // rom_read_and_D
-    input [31:0] data_1_i,         // rom_Occ
+    input [31:0] data_Occ_i,         // rom_Occ
+    input        data_valid,
     // input [31:0] data_2_i,         // rom_Occ               // 不用
     input [7:0] data_i,            // rom_C
+    
 
     output seq_we_state_o,
     output seq_we_InexRecur_o,
@@ -68,8 +70,8 @@ module accelerator_fsm(
     output [11:0] ran_w_addr_InexRecur_o     
     );
 
-    localparam GET_DATA_2= 3'b011;   // 取数据[Occ]                      （存在对应执行模块）
-    localparam GET_DATA_3= 3'b100;   // 取数据[Occ]                      （存在对应执行模块）
+    localparam GET_DATA_2= 3'b011;   // 取数据[Occ]                      
+    localparam GET_DATA_3= 3'b100;   // 取数据[Occ]            
     
     // 状态控制输出，使能不同的模块
     wire [2:0] state_out;
@@ -77,6 +79,8 @@ module accelerator_fsm(
     wire is_find_control;
     wire is_finish_control;
     wire is_get_data_in_Occ;
+    wire is_data_done_2;
+    wire is_data_done_3;
     
     // 模块之间的互连线
     // get_param 到 get_data_1
@@ -157,6 +161,14 @@ module accelerator_fsm(
 
     assign addr_rom_Occ_o = state_out == GET_DATA_2 ? addr_rom_Occ_from_data2 : (state_out == GET_DATA_3 ? addr_rom_Occ_from_data3 : 0 );
 
+    // rom 数据有效信号
+
+    wire data_valid_2;
+    wire data_valid_3;
+
+    assign data_valid_2 = state_out == GET_DATA_2 ? data_valid : 0;
+    assign data_valid_3 = state_out == GET_DATA_3 ? data_valid : 0;
+
     // 状态控制
     state_control state_control_inst(
         .clk(clk),
@@ -165,6 +177,8 @@ module accelerator_fsm(
         .is_start(is_start),                      // 是否开始开始
         .is_find(is_find_control),                // 是否找到尚未完成的参数
         .is_get_data_in_Occ(is_get_data_in_Occ),  // 是否获取Occ中的数据
+        .is_data_done_2(is_data_done_2),
+        .is_data_done_3(is_data_done_3),
         .state(state_out)
     );
     
@@ -257,6 +271,8 @@ module accelerator_fsm(
         .rst_n(rst_n),               // 复位信号
 
         .en_get_data_2(state_out),  // 该模块使能
+
+        .data_done(is_data_done_2),
     
         // 上一个模块的输出
         // 四个参数
@@ -276,7 +292,10 @@ module accelerator_fsm(
         .addr_rom_Occ(addr_rom_Occ_from_data2),
     
         // 存储器数据输入
-        .data(data_1_i),         // rom_Occ
+        .data(data_Occ_i),         // rom_Occ
+
+        // 存储器数据有效
+        .data_valid(data_valid_2),
     
     
         // 输出给下一个模块的数据
@@ -293,7 +312,9 @@ module accelerator_fsm(
     get_data_3 get_data_3_inst(
         .rst_n(rst_n),               // 复位信号
 
-        .en_get_data_3(state_out),  // 该模块使能
+        .en_get_data_3(state_out),   // 该模块使能
+
+        .data_done(is_data_done_3),
     
         // 上一个模块的输出
         // 四个参数
@@ -313,8 +334,11 @@ module accelerator_fsm(
         .addr_rom_Occ(addr_rom_Occ_from_data3),
     
         // 存储器数据输入
-        .data(data_1_i),         // rom_Occ
-    
+        .data(data_Occ_i),         // rom_Occ
+
+        // 存储器数据有效
+        .data_valid(data_valid_3),
+
         // 输出给下一个模块的数据
         .position_out(position_data3_to_ex),
         .addr_out(addr_data3_to_ex),

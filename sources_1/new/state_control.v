@@ -29,6 +29,8 @@ module state_control(
     input is_start,                 // 是否开始开始
     input is_find,                  // 是否找到尚未完成的参数
     input is_get_data_in_Occ,       // 是否获取Occ中的数据
+    input is_data_done_2,
+    input is_data_done_3,
     output reg [2:0] state
     );
     
@@ -72,8 +74,18 @@ module state_control(
                     else
                         state <= EX;
                 end
-                GET_DATA_2: state <= GET_DATA_3;
-                GET_DATA_3: state <= EX;
+                GET_DATA_2: begin
+                    if(is_data_done_2)
+                        state <= GET_DATA_3;
+                    else
+                        state <= GET_DATA_2;
+                end
+                GET_DATA_3: begin
+                    if(is_data_done_3)
+                        state <= EX;
+                    else
+                        state <= GET_DATA_3;
+                end
                 EX        : state <= WRITE_BACK;
                 WRITE_BACK: begin
                     // if( stay_count == 0) begin
