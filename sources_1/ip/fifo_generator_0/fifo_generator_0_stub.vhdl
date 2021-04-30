@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
--- Date        : Thu Apr 29 18:49:15 2021
+-- Date        : Fri Apr 30 10:54:56 2021
 -- Host        : DESKTOP-NPIU9RN running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
 --               d:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/ip/fifo_generator_0/fifo_generator_0_stub.vhdl
@@ -16,10 +16,10 @@ entity fifo_generator_0 is
   Port ( 
     clk : in STD_LOGIC;
     srst : in STD_LOGIC;
-    din : in STD_LOGIC_VECTOR ( 9 downto 0 );
+    din : in STD_LOGIC_VECTOR ( 11 downto 0 );
     wr_en : in STD_LOGIC;
     rd_en : in STD_LOGIC;
-    dout : out STD_LOGIC_VECTOR ( 9 downto 0 );
+    dout : out STD_LOGIC_VECTOR ( 11 downto 0 );
     full : out STD_LOGIC;
     empty : out STD_LOGIC
   );
@@ -30,7 +30,7 @@ architecture stub of fifo_generator_0 is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
-attribute black_box_pad_pin of stub : architecture is "clk,srst,din[9:0],wr_en,rd_en,dout[9:0],full,empty";
+attribute black_box_pad_pin of stub : architecture is "clk,srst,din[11:0],wr_en,rd_en,dout[11:0],full,empty";
 attribute x_core_info : string;
 attribute x_core_info of stub : architecture is "fifo_generator_v13_2_5,Vivado 2020.1";
 begin

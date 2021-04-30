@@ -30,11 +30,11 @@ module test_fifo(
     reg rd_en;
     reg [7:0] data_in;
     wire[7:0] data_out;
+    wire full;
+    wire empty;
 
     reg [7:0] i;
 
-    // wire wr_ack;
-    wire valid;
 
     initial begin
         rst_n = 0;
@@ -75,9 +75,8 @@ module test_fifo(
         .wr_en(wr_en),
         .rd_en(rd_en),
         .dout(data_out),
-        .full(),
-        .empty(),
-        .valid(valid)
+        .full(full),
+        .empty(empty)
     );
 
 endmodule

@@ -34,7 +34,15 @@ module data_path(
     input [7:0] storage_addr_3,
 
     input storage_ce_4,
-    input [7:0] storage_addr_4
+    input [7:0] storage_addr_4,
+
+
+    
+    // 测试端口
+    input rd_en_test,
+    output [11:0] data_out_test,
+    output        full_test,
+    output        empty_test
 
     );
 
@@ -57,6 +65,8 @@ module data_path(
 
     reg [11:0] data_to_fifo;
 
+    
+    // 存储控制器1
     storage_control #(.CURRENT_NUMBER(1), .CURRENT_GRANT(4'b0001)) storage_control_inst_1(  
         .rst_n(rst_n),
         .clk(clk),
@@ -76,6 +86,7 @@ module data_path(
         .done()                    // 数据传输完成（给向处理器）
     );
 
+    // 存储控制器2
     storage_control #(.CURRENT_NUMBER(2), .CURRENT_GRANT(4'b0010)) storage_control_inst_2(  
         .rst_n(rst_n),
         .clk(clk),
@@ -95,6 +106,7 @@ module data_path(
         .done()                    // 数据传输完成（给向处理器）
     );
 
+    // 存储控制器3
     storage_control #(.CURRENT_NUMBER(3), .CURRENT_GRANT(4'b0100)) storage_control_inst_3(  
         .rst_n(rst_n),
         .clk(clk),
@@ -114,6 +126,7 @@ module data_path(
         .done()                    // 数据传输完成（给向处理器）
     );
 
+    // 存储控制器4
     storage_control #(.CURRENT_NUMBER(4), .CURRENT_GRANT(4'b1000)) storage_control_inst_4(  
         .rst_n(rst_n),
         .clk(clk),
@@ -133,6 +146,7 @@ module data_path(
         .done()                    // 数据传输完成（给向处理器）
     );
 
+    // 4通道仲裁器
     arbiter_4_wrapper arbiter_4_wrapper_inst(
         .clk(clk),
         .rst_n(rst_n),
@@ -159,5 +173,21 @@ module data_path(
             end
         endcase
     end
+
+    /*
+    * 当 empty 失效时，dout 数据有效
+    * 使能 rd_en , 刷新 dout 数据
+    */
+    // fifo
+    fifo_generator_0 fifo_inst(
+        .srst(~rst_n),
+        .clk(clk),
+        .din(data_to_fifo),
+        .wr_en(storage_valid_fifo),
+        .rd_en(rd_en_test),
+        .dout(data_out_test),
+        .full(full_test),
+        .empty(empty_test)
+    );
 
 endmodule

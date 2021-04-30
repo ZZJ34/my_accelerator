@@ -38,6 +38,12 @@ module test_data_path(
     reg storage_ce_4;
     reg [7:0] storage_addr_4;
 
+    reg rd_en;
+    wire [11:0] data_out;
+    wire        full;
+    wire        empty;
+
+
     initial begin
         storage_addr_1 <= 8'haa;
         storage_addr_2 <= 8'hbb;
@@ -50,6 +56,8 @@ module test_data_path(
         storage_ce_3 = 0;
         storage_ce_4 = 0;
 
+        rd_en = 0;
+
         #20
         rst_n = 1;
 
@@ -60,16 +68,7 @@ module test_data_path(
         storage_ce_4 = 1;
 
         #150
-        rst_n = 0;
-        #20
-        storage_ce_1 = 1;
-        storage_ce_2 = 0;
-        storage_ce_3 = 0;
-        storage_ce_4 = 1;
-
-        #20
-        rst_n = 1;
-
+        rd_en = 1;
 
     end
 
@@ -89,6 +88,13 @@ module test_data_path(
         .storage_addr_3(storage_addr_3),
 
         .storage_ce_4(storage_ce_4),
-        .storage_addr_4(storage_addr_4)
+        .storage_addr_4(storage_addr_4),
+
+
+        // 测试端口
+        .rd_en_test(rd_en),
+        .data_out_test(data_out),
+        .full_test(full),
+        .empty_test(empty)
     );
 endmodule

@@ -1,7 +1,7 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
-// Date        : Thu Apr 29 18:49:15 2021
+// Date        : Fri Apr 30 10:54:56 2021
 // Host        : DESKTOP-NPIU9RN running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
 //               d:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/ip/fifo_generator_0/fifo_generator_0_sim_netlist.v
@@ -25,16 +25,16 @@ module fifo_generator_0
     empty);
   (* x_interface_info = "xilinx.com:signal:clock:1.0 core_clk CLK" *) (* x_interface_parameter = "XIL_INTERFACENAME core_clk, FREQ_HZ 100000000, FREQ_TOLERANCE_HZ 0, PHASE 0.000, INSERT_VIP 0" *) input clk;
   input srst;
-  (* x_interface_info = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE WR_DATA" *) input [9:0]din;
+  (* x_interface_info = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE WR_DATA" *) input [11:0]din;
   (* x_interface_info = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE WR_EN" *) input wr_en;
   (* x_interface_info = "xilinx.com:interface:fifo_read:1.0 FIFO_READ RD_EN" *) input rd_en;
-  (* x_interface_info = "xilinx.com:interface:fifo_read:1.0 FIFO_READ RD_DATA" *) output [9:0]dout;
+  (* x_interface_info = "xilinx.com:interface:fifo_read:1.0 FIFO_READ RD_DATA" *) output [11:0]dout;
   (* x_interface_info = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE FULL" *) output full;
   (* x_interface_info = "xilinx.com:interface:fifo_read:1.0 FIFO_READ EMPTY" *) output empty;
 
   wire clk;
-  wire [9:0]din;
-  wire [9:0]dout;
+  wire [11:0]din;
+  wire [11:0]dout;
   wire empty;
   wire full;
   wire rd_en;
@@ -193,7 +193,7 @@ module fifo_generator_0
   (* C_COUNT_TYPE = "0" *) 
   (* C_DATA_COUNT_WIDTH = "11" *) 
   (* C_DEFAULT_VALUE = "BlankString" *) 
-  (* C_DIN_WIDTH = "10" *) 
+  (* C_DIN_WIDTH = "12" *) 
   (* C_DIN_WIDTH_AXIS = "1" *) 
   (* C_DIN_WIDTH_RACH = "32" *) 
   (* C_DIN_WIDTH_RDCH = "64" *) 
@@ -201,7 +201,7 @@ module fifo_generator_0
   (* C_DIN_WIDTH_WDCH = "64" *) 
   (* C_DIN_WIDTH_WRCH = "2" *) 
   (* C_DOUT_RST_VAL = "0" *) 
-  (* C_DOUT_WIDTH = "10" *) 
+  (* C_DOUT_WIDTH = "12" *) 
   (* C_ENABLE_RLOCS = "0" *) 
   (* C_ENABLE_RST_SYNC = "1" *) 
   (* C_EN_SAFETY_CKT = "0" *) 
@@ -611,21 +611,21 @@ module fifo_generator_0_blk_mem_gen_generic_cstr
     \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ,
     Q,
     din);
-  output [9:0]D;
+  output [11:0]D;
   input clk;
   input [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   input tmp_ram_rd_en;
   input srst;
   input [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   input [9:0]Q;
-  input [9:0]din;
+  input [11:0]din;
 
-  wire [9:0]D;
+  wire [11:0]D;
   wire [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   wire [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   wire [9:0]Q;
   wire clk;
-  wire [9:0]din;
+  wire [11:0]din;
   wire srst;
   wire tmp_ram_rd_en;
 
@@ -650,21 +650,21 @@ module fifo_generator_0_blk_mem_gen_prim_width
     \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ,
     Q,
     din);
-  output [9:0]D;
+  output [11:0]D;
   input clk;
   input [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   input tmp_ram_rd_en;
   input srst;
   input [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   input [9:0]Q;
-  input [9:0]din;
+  input [11:0]din;
 
-  wire [9:0]D;
+  wire [11:0]D;
   wire [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   wire [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   wire [9:0]Q;
   wire clk;
-  wire [9:0]din;
+  wire [11:0]din;
   wire srst;
   wire tmp_ram_rd_en;
 
@@ -689,29 +689,27 @@ module fifo_generator_0_blk_mem_gen_prim_wrapper
     \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_1 ,
     Q,
     din);
-  output [9:0]D;
+  output [11:0]D;
   input clk;
   input [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   input tmp_ram_rd_en;
   input srst;
   input [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_1 ;
   input [9:0]Q;
-  input [9:0]din;
+  input [11:0]din;
 
-  wire [9:0]D;
+  wire [11:0]D;
   wire [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   wire [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_1 ;
   wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_16 ;
   wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_17 ;
-  wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_18 ;
   wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_24 ;
   wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_25 ;
-  wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_26 ;
   wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_34 ;
   wire \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_35 ;
   wire [9:0]Q;
   wire clk;
-  wire [9:0]din;
+  wire [11:0]din;
   wire srst;
   wire tmp_ram_rd_en;
   wire [15:0]\NLW_DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_DOADO_UNCONNECTED ;
@@ -823,12 +821,12 @@ module fifo_generator_0_blk_mem_gen_prim_wrapper
         .ADDRBWRADDR({Q,1'b0,1'b0,1'b0,1'b0}),
         .CLKARDCLK(clk),
         .CLKBWRCLK(clk),
-        .DIADI({1'b0,1'b0,1'b0,din[9:5],1'b0,1'b0,1'b0,din[4:0]}),
+        .DIADI({1'b0,1'b0,din[11:6],1'b0,1'b0,din[5:0]}),
         .DIBDI({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
         .DIPADIP({1'b0,1'b0}),
         .DIPBDIP({1'b0,1'b0}),
         .DOADO(\NLW_DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_DOADO_UNCONNECTED [15:0]),
-        .DOBDO({\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_16 ,\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_17 ,\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_18 ,D[9:5],\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_24 ,\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_25 ,\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_26 ,D[4:0]}),
+        .DOBDO({\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_16 ,\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_17 ,D[11:6],\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_24 ,\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_25 ,D[5:0]}),
         .DOPADOP(\NLW_DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_DOPADOP_UNCONNECTED [1:0]),
         .DOPBDOP({\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_34 ,\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_n_35 }),
         .ENARDEN(\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ),
@@ -853,21 +851,21 @@ module fifo_generator_0_blk_mem_gen_top
     \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ,
     Q,
     din);
-  output [9:0]D;
+  output [11:0]D;
   input clk;
   input [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   input tmp_ram_rd_en;
   input srst;
   input [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   input [9:0]Q;
-  input [9:0]din;
+  input [11:0]din;
 
-  wire [9:0]D;
+  wire [11:0]D;
   wire [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   wire [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   wire [9:0]Q;
   wire clk;
-  wire [9:0]din;
+  wire [11:0]din;
   wire srst;
   wire tmp_ram_rd_en;
 
@@ -892,21 +890,21 @@ module fifo_generator_0_blk_mem_gen_v8_4_4
     \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ,
     Q,
     din);
-  output [9:0]D;
+  output [11:0]D;
   input clk;
   input [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   input tmp_ram_rd_en;
   input srst;
   input [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   input [9:0]Q;
-  input [9:0]din;
+  input [11:0]din;
 
-  wire [9:0]D;
+  wire [11:0]D;
   wire [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   wire [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   wire [9:0]Q;
   wire clk;
-  wire [9:0]din;
+  wire [11:0]din;
   wire srst;
   wire tmp_ram_rd_en;
 
@@ -931,21 +929,21 @@ module fifo_generator_0_blk_mem_gen_v8_4_4_synth
     \DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ,
     Q,
     din);
-  output [9:0]D;
+  output [11:0]D;
   input clk;
   input [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   input tmp_ram_rd_en;
   input srst;
   input [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   input [9:0]Q;
-  input [9:0]din;
+  input [11:0]din;
 
-  wire [9:0]D;
+  wire [11:0]D;
   wire [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   wire [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   wire [9:0]Q;
   wire clk;
-  wire [9:0]din;
+  wire [11:0]din;
   wire srst;
   wire tmp_ram_rd_en;
 
@@ -1196,16 +1194,16 @@ module fifo_generator_0_fifo_generator_ramfifo
     wr_en);
   output empty;
   output full;
-  output [9:0]dout;
+  output [11:0]dout;
   input clk;
   input srst;
-  input [9:0]din;
+  input [11:0]din;
   input rd_en;
   input wr_en;
 
   wire clk;
-  wire [9:0]din;
-  wire [9:0]dout;
+  wire [11:0]din;
+  wire [11:0]dout;
   wire empty;
   wire full;
   wire \gntv_or_sync_fifo.gl0.wr_n_0 ;
@@ -1273,16 +1271,16 @@ module fifo_generator_0_fifo_generator_top
     wr_en);
   output empty;
   output full;
-  output [9:0]dout;
+  output [11:0]dout;
   input clk;
   input srst;
-  input [9:0]din;
+  input [11:0]din;
   input rd_en;
   input wr_en;
 
   wire clk;
-  wire [9:0]din;
-  wire [9:0]dout;
+  wire [11:0]din;
+  wire [11:0]dout;
   wire empty;
   wire full;
   wire rd_en;
@@ -1309,10 +1307,10 @@ endmodule
 (* C_AXI_DATA_WIDTH = "64" *) (* C_AXI_ID_WIDTH = "1" *) (* C_AXI_LEN_WIDTH = "8" *) 
 (* C_AXI_LOCK_WIDTH = "1" *) (* C_AXI_RUSER_WIDTH = "1" *) (* C_AXI_TYPE = "1" *) 
 (* C_AXI_WUSER_WIDTH = "1" *) (* C_COMMON_CLOCK = "1" *) (* C_COUNT_TYPE = "0" *) 
-(* C_DATA_COUNT_WIDTH = "11" *) (* C_DEFAULT_VALUE = "BlankString" *) (* C_DIN_WIDTH = "10" *) 
+(* C_DATA_COUNT_WIDTH = "11" *) (* C_DEFAULT_VALUE = "BlankString" *) (* C_DIN_WIDTH = "12" *) 
 (* C_DIN_WIDTH_AXIS = "1" *) (* C_DIN_WIDTH_RACH = "32" *) (* C_DIN_WIDTH_RDCH = "64" *) 
 (* C_DIN_WIDTH_WACH = "1" *) (* C_DIN_WIDTH_WDCH = "64" *) (* C_DIN_WIDTH_WRCH = "2" *) 
-(* C_DOUT_RST_VAL = "0" *) (* C_DOUT_WIDTH = "10" *) (* C_ENABLE_RLOCS = "0" *) 
+(* C_DOUT_RST_VAL = "0" *) (* C_DOUT_WIDTH = "12" *) (* C_ENABLE_RLOCS = "0" *) 
 (* C_ENABLE_RST_SYNC = "1" *) (* C_EN_SAFETY_CKT = "0" *) (* C_ERROR_INJECTION_TYPE = "0" *) 
 (* C_ERROR_INJECTION_TYPE_AXIS = "0" *) (* C_ERROR_INJECTION_TYPE_RACH = "0" *) (* C_ERROR_INJECTION_TYPE_RDCH = "0" *) 
 (* C_ERROR_INJECTION_TYPE_WACH = "0" *) (* C_ERROR_INJECTION_TYPE_WDCH = "0" *) (* C_ERROR_INJECTION_TYPE_WRCH = "0" *) 
@@ -1609,7 +1607,7 @@ module fifo_generator_0_fifo_generator_v13_2_5
   input wr_rst;
   input rd_clk;
   input rd_rst;
-  input [9:0]din;
+  input [11:0]din;
   input wr_en;
   input rd_en;
   input [9:0]prog_empty_thresh;
@@ -1622,7 +1620,7 @@ module fifo_generator_0_fifo_generator_v13_2_5
   input injectdbiterr;
   input injectsbiterr;
   input sleep;
-  output [9:0]dout;
+  output [11:0]dout;
   output full;
   output almost_full;
   output wr_ack;
@@ -1835,8 +1833,8 @@ module fifo_generator_0_fifo_generator_v13_2_5
   wire \<const0> ;
   wire \<const1> ;
   wire clk;
-  wire [9:0]din;
-  wire [9:0]dout;
+  wire [11:0]din;
+  wire [11:0]dout;
   wire empty;
   wire full;
   wire rd_en;
@@ -2398,16 +2396,16 @@ module fifo_generator_0_fifo_generator_v13_2_5_synth
     wr_en);
   output empty;
   output full;
-  output [9:0]dout;
+  output [11:0]dout;
   input clk;
   input srst;
-  input [9:0]din;
+  input [11:0]din;
   input rd_en;
   input wr_en;
 
   wire clk;
-  wire [9:0]din;
-  wire [9:0]dout;
+  wire [11:0]din;
+  wire [11:0]dout;
   wire empty;
   wire full;
   wire rd_en;
@@ -2436,14 +2434,14 @@ module fifo_generator_0_memory
     Q,
     din,
     E);
-  output [9:0]dout;
+  output [11:0]dout;
   input clk;
   input [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
   input tmp_ram_rd_en;
   input srst;
   input [9:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram_0 ;
   input [9:0]Q;
-  input [9:0]din;
+  input [11:0]din;
   input [0:0]E;
 
   wire [0:0]\DEVICE_7SERIES.NO_BMM_INFO.SDP.SIMPLE_PRIM18.ram ;
@@ -2451,9 +2449,9 @@ module fifo_generator_0_memory
   wire [0:0]E;
   wire [9:0]Q;
   wire clk;
-  wire [9:0]din;
-  wire [9:0]dout;
-  wire [9:0]doutb;
+  wire [11:0]din;
+  wire [11:0]dout;
+  wire [11:0]doutb;
   wire srst;
   wire tmp_ram_rd_en;
 
@@ -2473,6 +2471,22 @@ module fifo_generator_0_memory
         .CE(E),
         .D(doutb[0]),
         .Q(dout[0]),
+        .R(srst));
+  FDRE #(
+    .INIT(1'b0)) 
+    \goreg_bm.dout_i_reg[10] 
+       (.C(clk),
+        .CE(E),
+        .D(doutb[10]),
+        .Q(dout[10]),
+        .R(srst));
+  FDRE #(
+    .INIT(1'b0)) 
+    \goreg_bm.dout_i_reg[11] 
+       (.C(clk),
+        .CE(E),
+        .D(doutb[11]),
+        .Q(dout[11]),
         .R(srst));
   FDRE #(
     .INIT(1'b0)) 
@@ -3150,7 +3164,7 @@ module fifo_generator_0_rd_fwft
         .O(E));
   LUT3 #(
     .INIT(8'hA2)) 
-    \goreg_bm.dout_i[9]_i_1 
+    \goreg_bm.dout_i[11]_i_1 
        (.I0(curr_fwft_state[1]),
         .I1(curr_fwft_state[0]),
         .I2(rd_en),
