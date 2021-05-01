@@ -34,10 +34,6 @@ module top(
     input [17:0] ran_w_data_state_external
     );
     
-    // rom_C
-    wire ce_rom_C;
-    wire [1:0] addr_rom_C;
-    wire [7:0] data_C;
 
     // rom_Occ
     wire ce_rom_Occ;
@@ -51,10 +47,6 @@ module top(
         .clk(clk),             // 时钟
         .rst_n(rst_n),         // 复位
         .is_start(is_start),   // 开始执行
-        // rom_C
-        .ce_rom_C_o(ce_rom_C),
-        .addr_rom_C_o(addr_rom_C),
-        .data_C_i(data_C),
         // rom_Occ
         .ce_rom_Occ_o(ce_rom_Occ),
         .addr_rom_Occ_o(addr_rom_Occ),
@@ -68,12 +60,6 @@ module top(
         .ran_we_state_external(ran_we_state_external),
         .ran_w_addr_state_external(ran_w_addr_state_external),
         .ran_w_data_state_external(ran_w_data_state_external)
-    );
-
-    rom_C rom_C_inst(
-        .ce(ce_rom_C),
-        .symbol(addr_rom_C),
-        .data(data_C)
     );
 
     rom_Occ rom_Occ_inst(

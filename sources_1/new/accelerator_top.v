@@ -28,10 +28,6 @@ module accelerator_top(
     input clk,           // 时钟
     input rst_n,         // 复位
     input is_start,      // 开始执行
-    // rom_C
-    output       ce_rom_C_o,
-    output [1:0] addr_rom_C_o,
-    input  [7:0] data_C_i,
     // rom_Occ
     output       ce_rom_Occ_o,
     output [7:0] addr_rom_Occ_o,
@@ -87,6 +83,11 @@ module accelerator_top(
     wire [7:0] d_i;
     wire [1:0] read_i; 
 
+    // accelerator_fsm & rom_C => read
+    wire ce_rom_C;
+    wire [1:0] addr_rom_C;
+    wire [7:0] data_C;
+
 
     assign ran_we_state = is_start == 0 ? ran_we_state_external : ran_we_state_interior;
     assign ran_w_addr_state = is_start == 0 ? ran_w_addr_state_external : ran_w_addr_state_interior;
@@ -110,11 +111,11 @@ module accelerator_top(
         .state_addr_i(),                          // regfile_state 当前地址（ InexRecur 和 state 的数据一一对应，知道一个当前地址即可）
         .state_data_i(out_r_data_state),          // regfile_state 当前数据
 
-        .ce_rom_C_o(ce_rom_C_o),
+        .ce_rom_C_o(ce_rom_C),
         .ce_rom_Occ_o(ce_rom_Occ_o),
         .ce_rom_read_and_D_o(ce_rom_read_and_D),
 
-        .addr_rom_C_o(addr_rom_C_o),
+        .addr_rom_C_o(addr_rom_C),
         .addr_rom_Occ_o(addr_rom_Occ_o),
         .addr_rom_read_and_D_o(addr_rom_read_and_D),
 
@@ -122,7 +123,7 @@ module accelerator_top(
         .read_i_i(read_i),          // rom_read_and_D
         .data_Occ_i(data_Occ_i),              // rom_Occ
         .data_Occ_valid_i(data_Occ_valid_i),  // rom_Occ        
-        .data_C_i(data_C_i),        // rom_C
+        .data_C_i(data_C),          // rom_C
 
         .seq_we_state_o(seq_we_state),
         .seq_we_InexRecur_o(seq_we_InexRecur),
@@ -192,6 +193,12 @@ module accelerator_top(
         .addr(addr_rom_read_and_D),
         .d_i(d_i),
         .read_i(read_i)  
+    );
+
+    rom_C rom_C_inst(
+        .ce(ce_rom_C),
+        .symbol(addr_rom_C),
+        .data(data_C)
     );
 
 
