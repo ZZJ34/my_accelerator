@@ -23,7 +23,7 @@
 module data_path(
     input rst_n,
     input clk,
-
+    
     input storage_ce_1,
     input [7:0] storage_addr_1,
 
@@ -34,7 +34,20 @@ module data_path(
     input [7:0] storage_addr_3,
 
     input storage_ce_4,
-    input [7:0] storage_addr_4
+    input [7:0] storage_addr_4,
+
+
+    output [31:0] data_to_alu_1,
+    output done_1,
+
+    output [31:0] data_to_alu_2,
+    output done_2,
+
+    output [31:0] data_to_alu_3,
+    output done_3,
+
+    output [31:0] data_to_alu_4,
+    output done_4
 
     );
 
@@ -84,14 +97,14 @@ module data_path(
         .number_and_addr(data_to_fifo_1), 
         .storage_valid(storage_valid_1),
 
-        .data_from_storage(result),// 来自于存储器的数据
-        .data_to_alu(),            // 输出给处理核心的数据
+        .data_from_storage(result),  // 来自于存储器的数据
+        .data_to_alu(data_to_alu_1), // 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_1),               // 占用请求
+        .req(req_1),                 // 占用请求
 
-        .txn_done(result_valid),   // 数据传输完成（来自存储器）
-        .done()                    // 数据传输完成（给向处理器）
+        .txn_done(result_valid),     // 数据传输完成（来自存储器）
+        .done(done_1)                // 数据传输完成（给向处理器）
     );
 
     // 存储控制器2
@@ -104,14 +117,14 @@ module data_path(
         .number_and_addr(data_to_fifo_2),
         .storage_valid(storage_valid_2),
 
-        .data_from_storage(result),// 来自于存储器的数据
-        .data_to_alu(),            // 输出给处理核心的数据
+        .data_from_storage(result), // 来自于存储器的数据
+        .data_to_alu(data_to_alu_2),// 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_2),               // 占用请求
+        .req(req_2),                // 占用请求
 
-        .txn_done(result_valid),   // 数据传输完成（来自存储器）
-        .done()                    // 数据传输完成（给向处理器）
+        .txn_done(result_valid),    // 数据传输完成（来自存储器）
+        .done(done_2)               // 数据传输完成（给向处理器）
     );
 
     // 存储控制器3
@@ -124,14 +137,14 @@ module data_path(
         .number_and_addr(data_to_fifo_3),
         .storage_valid(storage_valid_3),
 
-        .data_from_storage(result),// 来自于存储器的数据
-        .data_to_alu(),            // 输出给处理核心的数据
+        .data_from_storage(result), // 来自于存储器的数据
+        .data_to_alu(data_to_alu_3),// 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_3),               // 占用请求
+        .req(req_3),                // 占用请求
 
-        .txn_done(result_valid),   // 数据传输完成（来自存储器）
-        .done()                    // 数据传输完成（给向处理器）
+        .txn_done(result_valid),    // 数据传输完成（来自存储器）
+        .done(done_3)               // 数据传输完成（给向处理器）
     );
 
     // 存储控制器4
@@ -144,14 +157,14 @@ module data_path(
         .number_and_addr(data_to_fifo_4), 
         .storage_valid(storage_valid_4),
 
-        .data_from_storage(result),// 来自于存储器的数据
-        .data_to_alu(),            // 输出给处理核心的数据
+        .data_from_storage(result), // 来自于存储器的数据
+        .data_to_alu(data_to_alu_4),// 输出给处理核心的数据
 
         .grant(grant),        
-        .req(req_4),               // 占用请求
+        .req(req_4),                // 占用请求
 
-        .txn_done(result_valid),   // 数据传输完成（来自存储器）
-        .done()                    // 数据传输完成（给向处理器）
+        .txn_done(result_valid),    // 数据传输完成（来自存储器）
+        .done(done_4)               // 数据传输完成（给向处理器）
     );
 
     // 4通道仲裁器
