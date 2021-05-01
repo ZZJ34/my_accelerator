@@ -149,7 +149,7 @@ module get_data_1(
                     ce_rom_read_and_D <= 0;
                     // 地址线
                     addr_rom_C <= 2'b11;
-                    addr_rom_read_and_D <= 0;;
+                    addr_rom_read_and_D <= 0;
 
                     C_out <= data;
 

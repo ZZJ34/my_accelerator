@@ -38,7 +38,7 @@ module rom_Occ(
     reg [31:0] mem [0:255];
 
     // 绝对路径
-    initial $readmemh("D:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/new/data/Occ/Occ.data", mem);
+    initial $readmemh("D:/RISCV/my_accelerator/my_accelerator.srcs/sources_1/new/data/public/Occ.data", mem);
 
     always @(*) begin
         if(!ce) begin

@@ -220,7 +220,7 @@ module data_path(
         .data_from_fifo(data_to_middleware),
         .rd_en(rd_en),
 
-        .base_addr(0),
+        .base_addr(8'b0),
 
         .data_from_rom(data),
         .data_valid(valid),

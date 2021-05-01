@@ -94,7 +94,7 @@ module top_with_data_path(
     wire        data_Occ_valid_4;
 
 
-    accelerator_top accelerator_top_inst_1(
+    accelerator_top_1 accelerator_top_inst_1(
         .clk(clk),             // 时钟
         .rst_n(rst_n),         // 复位
         .is_start(is_start),   // 开始执行
@@ -113,7 +113,7 @@ module top_with_data_path(
         .ran_w_data_state_external(ran_w_data_state_external_1)
     );
 
-    accelerator_top accelerator_top_inst_2(
+    accelerator_top_2 accelerator_top_inst_2(
         .clk(clk),             // 时钟
         .rst_n(rst_n),         // 复位
         .is_start(is_start),   // 开始执行
@@ -132,7 +132,7 @@ module top_with_data_path(
         .ran_w_data_state_external(ran_w_data_state_external_2)
     );
 
-    accelerator_top accelerator_top_inst_3(
+    accelerator_top_3 accelerator_top_inst_3(
         .clk(clk),             // 时钟
         .rst_n(rst_n),         // 复位
         .is_start(is_start),   // 开始执行
@@ -151,7 +151,7 @@ module top_with_data_path(
         .ran_w_data_state_external(ran_w_data_state_external_3)
     );
 
-    accelerator_top accelerator_top_inst_4(
+    accelerator_top_4 accelerator_top_inst_4(
         .clk(clk),             // 时钟
         .rst_n(rst_n),         // 复位
         .is_start(is_start),   // 开始执行
