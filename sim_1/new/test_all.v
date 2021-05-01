@@ -69,7 +69,7 @@ module test_all(
 
     always #5 clk = ~clk;
 
-    top top_inst(
+    top_with_data_path top_with_data_path_inst(
         .clk(clk),              // 时钟
         .rst_n(rst_n),          // 复位
         .is_start(is_start),    // 开始执行

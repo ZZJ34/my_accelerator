@@ -77,10 +77,7 @@ module storage_control#(
         else begin
             case (state)
                 IDLE: begin
-                    if(storage_ce) begin
-                        state <= REQ;
-                        done  <= 0;
-                    end
+                    if(storage_ce) state <= REQ;
                     else state <= state;
                 end
                 REQ: begin
@@ -91,10 +88,7 @@ module storage_control#(
                     state <= WAIT_DATA;
                 end
                 WAIT_DATA: begin
-                    if(txn_done && data_from_storage[35:32] == CURRENT_NUMBER) begin 
-                        state <= DONE;
-                        done  <= 1;
-                    end
+                    if(txn_done && data_from_storage[35:32] == CURRENT_NUMBER) state <= DONE;
                     else state <= state;
                 end
                 DONE: begin
@@ -124,7 +118,7 @@ module storage_control#(
         if (state == DONE) data_to_alu <= data_from_storage[31:0];
 
         // done
-        // if (state == DONE) done <= 1;
-        // else done <= 0;
+        if (state == DONE) done <= 1;
+        else done <= 0;
     end
 endmodule
