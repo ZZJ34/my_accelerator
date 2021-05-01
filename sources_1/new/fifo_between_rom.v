@@ -70,12 +70,9 @@ module fifo_between_rom(
                     else state <= GET_DATA;
                 end
                 DONE: state <= REFRESH;
-                REFRESH: begin
-                    if(is_empty) state <= WAIT;
-                    else state <= GET_DATA;
-                end
+                REFRESH: state <= WAIT;
                 WAIT: begin
-                    if(is_empty) state <= REFRESH;
+                    if(is_empty) state <= WAIT;
                     else state <= GET_DATA;
                 end
                 default: begin

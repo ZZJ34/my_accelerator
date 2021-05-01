@@ -73,14 +73,42 @@ module test_all(
         .clk(clk),              // 时钟
         .rst_n(rst_n),          // 复位
         .is_start(is_start),    // 开始执行
+
         // regfile_InexRecur 的随机写端口
-        .ran_we_InexRecur(ran_we_InexRecur),
-        .ran_w_addr_InexRecur(ran_w_addr_InexRecur),
-        .ran_w_data_InexRecur(ran_w_data_InexRecur),
+        .ran_we_InexRecur_1(ran_we_InexRecur),
+        .ran_w_addr_InexRecur_1(ran_w_addr_InexRecur),
+        .ran_w_data_InexRecur_1(ran_w_data_InexRecur),
         // regfile_state 的随机写端口
-        .ran_we_state_external(ran_we_state_external),
-        .ran_w_addr_state_external(ran_w_addr_state_external),
-        .ran_w_data_state_external(ran_w_data_state_external)
+        .ran_we_state_external_1(ran_we_state_external),
+        .ran_w_addr_state_external_1(ran_w_addr_state_external),
+        .ran_w_data_state_external_1(ran_w_data_state_external),
+
+        // regfile_InexRecur 的随机写端口
+        .ran_we_InexRecur_2(ran_we_InexRecur),
+        .ran_w_addr_InexRecur_2(ran_w_addr_InexRecur),
+        .ran_w_data_InexRecur_2(ran_w_data_InexRecur),
+        // regfile_state 的随机写端口
+        .ran_we_state_external_2(ran_we_state_external),
+        .ran_w_addr_state_external_2(ran_w_addr_state_external),
+        .ran_w_data_state_external_2(ran_w_data_state_external),
+
+        // regfile_InexRecur 的随机写端口
+        .ran_we_InexRecur_3(ran_we_InexRecur),
+        .ran_w_addr_InexRecur_3(ran_w_addr_InexRecur),
+        .ran_w_data_InexRecur_3(ran_w_data_InexRecur),
+        // regfile_state 的随机写端口
+        .ran_we_state_external_3(ran_we_state_external),
+        .ran_w_addr_state_external_3(ran_w_addr_state_external),
+        .ran_w_data_state_external_3(ran_w_data_state_external),
+
+        // regfile_InexRecur 的随机写端口
+        .ran_we_InexRecur_4(ran_we_InexRecur),
+        .ran_w_addr_InexRecur_4(ran_w_addr_InexRecur),
+        .ran_w_data_InexRecur_4(ran_w_data_InexRecur),
+        // regfile_state 的随机写端口
+        .ran_we_state_external_4(ran_we_state_external),
+        .ran_w_addr_state_external_4(ran_w_addr_state_external),
+        .ran_w_data_state_external_4(ran_w_data_state_external)
     );
  
 endmodule
